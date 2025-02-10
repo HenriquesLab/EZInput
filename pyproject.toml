@@ -51,3 +51,6 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml"]
+
+[tool.pytest.ini_options]
+addopts = "--nbmake"
