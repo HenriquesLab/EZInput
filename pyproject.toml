@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "easygui"
+version = "0.1.0"
+description = "Simplify the creation of GUI elements in terminals and Jupyter Notebooks"
+authors = [
+    { name = "Bruno M. Saraiva", email = "bruno.msaraiva2@gmail.com" },
+    { name = "Ricardo Henriques", email = "ricardo@henriqueslab.org"}
+]
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+requires-python = ">= 3.9"
+dependencies = []
+
+[project.optional-dependencies]
+all = ["easygui[dev, test]"]
+dev = [
+    "pre-commit>=3.7.0",
+    "ipykernel>=6.29.4",
+    "ruff>=0.4.3",
+    "gptrepo>=1.0.3",
+    "pdoc>=12.3.1",
+    "build"
+]
+test = [
+    "pytest>=8.2.0",
+    "pytest-xdist>=3.6.1",
+    "pytest-cov>=5.0.0",
+    "nbmake>=1.5.3",
+    "mypy>=1.10.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml"]
