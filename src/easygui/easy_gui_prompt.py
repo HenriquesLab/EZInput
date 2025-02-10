@@ -86,7 +86,7 @@ class EasyGUIPrompt:
         """
         return self.cfg[tag]
 
-    def add_label(self, message: str):
+    def add_header(self, message: str):
         """
         Add a header to the GUI.
 
