@@ -67,9 +67,7 @@ def save_config(title: str, cfg: dict):
 
 
 class EasyGUI:
-    def __init__(
-        self, title: str = "base", mode="jupyter", width: str = "50%"
-    ):
+    def __init__(self, title: str = "base", mode="prompt", width: str = "50%"):
         if mode == "jupyter":
             self.__class__ = EasyGUIJupyter
             """
