@@ -7,15 +7,15 @@ from typing import Optional
 from ipyfilechooser import FileChooser
 from IPython.display import display, clear_output
 
-from .easy_gui_jupyter import EasyGUIJupyter
-from .easy_gui_prompt import EasyGUIPrompt
+from .ezgui4notebook import EZGUIJupyter
+from .ezgui4prompt import EZGUIPrompt
 
 
 """
 A module to help simplify the create of GUIs in Jupyter notebooks using ipywidgets.
 """
 
-CONFIG_PATH = Path.home() / ".config" / "easy_gui"
+CONFIG_PATH = Path.home() / ".config" / "ezgui4jupyter"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)
@@ -66,10 +66,10 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EasyGUI:
+class EZGUI:
     def __init__(self, title: str = "base", mode="prompt", width: str = "50%"):
         if mode == "jupyter":
-            self.__class__ = EasyGUIJupyter
+            self.__class__ = EZGUIJupyter
             """
             Container for widgets.
 
@@ -84,7 +84,7 @@ class EasyGUI:
             self._main_display = widgets.VBox()
             self._title = title
             self._cfg = get_config(title)
-            self.__class__ = EasyGUIJupyter
+            self.__class__ = EZGUIJupyter
 
         elif mode == "prompt":
             """
@@ -95,7 +95,7 @@ class EasyGUI:
             """
             self.title = title
             self.cfg = get_config(title)
-            self.__class__ = EasyGUIPrompt
+            self.__class__ = EZGUIPrompt
         else:
             raise ValueError(
                 "Invalid mode. Must be either 'jupyter' or 'prompt'."

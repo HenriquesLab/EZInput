@@ -11,7 +11,7 @@ from typing import Optional
 A module to help simplify the create of GUIs in Jupyter notebooks using ipywidgets.
 """
 
-CONFIG_PATH = Path.home() / ".config" / "easy_gui"
+CONFIG_PATH = Path.home() / ".config" / "ezgui4jupyter"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)
@@ -62,7 +62,7 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EasyGUIJupyter:
+class EZGUIJupyter:
     """
     A class to help simplify the creation of GUIs in Jupyter notebooks using ipywidgets.
     """
@@ -143,7 +143,7 @@ class EasyGUIJupyter:
         Example:
             The following example demonstrates how to add a text widget to the GUI:
 
-            >>> gui = EasyGUI()
+            >>> gui = EZGUI()
             >>> gui.add_text("text", "Enter some text:")
             >>> gui.show()
         """
@@ -307,7 +307,7 @@ class EasyGUIJupyter:
             kwargs: Kwargs for the widget.
 
         Example:
-            >>> gui = EasyGUI()
+            >>> gui = EZGUI()
             >>> gui.add_dropdown("dropdown", options=["A", "B", "C"])
         """
         if (

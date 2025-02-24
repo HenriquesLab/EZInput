@@ -1,12 +1,12 @@
-from easy_gui import EasyGUI
-from easy_gui.easy_gui_prompt import EasyGUIPrompt
+from ezgui4jupyter import EZGUI
+from ezgui4jupyter import EZGUIPrompt
 
 
 def test_header():
-    gui = EasyGUIPrompt("Test")
+    gui = EZGUIPrompt("Test")
     gui.add_header("Test Header")
 
 
 def test_header_eg():
-    eg = EasyGUI(title="Test", mode="prompt")
+    eg = EZGUI(title="Test", mode="prompt")
     eg.add_header("Test Header")

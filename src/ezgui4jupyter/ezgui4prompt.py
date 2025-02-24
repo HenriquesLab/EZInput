@@ -12,7 +12,7 @@ A module to help simplify the create of GUIs in terminals using python prompt-to
 """
 
 
-CONFIG_PATH = Path.home() / ".config" / "easy_gui"
+CONFIG_PATH = Path.home() / ".config" / "ezgui4jupyter"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)
@@ -63,7 +63,7 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EasyGUIPrompt:
+class EZGUIPrompt:
     def __init__(self, title: str):
         """
         Initialize the GUI.

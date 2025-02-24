@@ -1,4 +1,4 @@
-# Easy GUI
+# EZGUI4JuPyTer
 
 Easy GUI is a Python library that simplifies the creation of graphical user interfaces (GUIs) both in the terminal and in Jupyter notebooks. It provides a convenient way to add various types of widgets, making it easier to interact with your code and visualize results.
 
@@ -7,21 +7,21 @@ Easy GUI is a Python library that simplifies the creation of graphical user inte
 To install Easy GUI, you can use pip:
 
 ```bash
-pip install easy_gui
+pip install ezgui4jupyter
 ```
 
 ## Usage
 
-Easy GUI provides a single class `EasyGUI` that can be used to create GUIs in either the terminal or Jupyter notebooks. The mode is specified using the `mode` argument.
+EZGUI4JuPyTer provides a single class `EZGUI` that can be used to create GUIs in either the terminal or Jupyter notebooks. The mode is specified using the `mode` argument.
 
 ### Terminal Mode
 
 To create a GUI in the terminal using prompt-toolkit:
 
 ```python
-from easy_gui import EasyGUI
+from ezgui4jupyter import EZGUI
 
-gui = EasyGUI(title="My Terminal GUI", mode="prompt")
+gui = EZGUI(title="My Terminal GUI", mode="prompt")
 
 # Add GUI elements
 gui.add_yes_no("confirm", "Do you want to proceed?", remember_value=True)
@@ -40,9 +40,9 @@ gui.restore_default_settings()
 To create a GUI in Jupyter notebooks using ipywidgets:
 
 ```python
-from easy_gui import EasyGUI
+from ezgui4jupyter import EZGUI
 
-gui = EasyGUI(title="My Jupyter GUI", mode="jupyter")
+gui = EZGUI(title="My Jupyter GUI", mode="jupyter")
 
 # Add GUI elements
 gui.add_text("text", value="Hello, world!")
