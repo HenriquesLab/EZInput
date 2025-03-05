@@ -7,8 +7,8 @@ from typing import Optional
 from ipyfilechooser import FileChooser
 from IPython.display import display, clear_output
 
-from .ezgui4notebook import EZGUIJupyter
-from .ezgui4prompt import EZGUIPrompt
+from .ezinput_jupyter import EZInputJupyter
+from .ezinput_prompt import EZInputPrompt
 
 
 """
@@ -66,10 +66,9 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EZGUI:
+class EZInput:
     def __init__(self, title: str = "base", mode="prompt", width: str = "50%"):
         if mode == "jupyter":
-            self.__class__ = EZGUIJupyter
             """
             Container for widgets.
 
@@ -84,7 +83,7 @@ class EZGUI:
             self._main_display = widgets.VBox()
             self._title = title
             self._cfg = get_config(title)
-            self.__class__ = EZGUIJupyter
+            self.__class__ = EZInputJupyter
 
         elif mode == "prompt":
             """
@@ -95,7 +94,7 @@ class EZGUI:
             """
             self.title = title
             self.cfg = get_config(title)
-            self.__class__ = EZGUIPrompt
+            self.__class__ = EZInputPrompt
         else:
             raise ValueError(
                 "Invalid mode. Must be either 'jupyter' or 'prompt'."

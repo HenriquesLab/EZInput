@@ -62,7 +62,7 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EZGUIJupyter:
+class EZInputJupyter:
     """
     A class to help simplify the creation of GUIs in Jupyter notebooks using ipywidgets.
     """

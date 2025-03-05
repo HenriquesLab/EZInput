@@ -63,7 +63,7 @@ def save_config(title: str, cfg: dict):
         yaml.dump(base_config, f)
 
 
-class EZGUIPrompt:
+class EZInputPrompt:
     def __init__(self, title: str):
         """
         Initialize the GUI.
