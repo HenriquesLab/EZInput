@@ -100,35 +100,3 @@ class EZInput:
                 "Invalid mode. Must be either 'jupyter' or 'prompt'."
             )
 
-    def __getitem__(self, tag: str) -> widgets.Widget:
-        """
-        Get a widget by tag.
-
-        Args:
-            tag (str): The tag of the widget.
-
-        Returns:
-            widgets.Widget: The widget.
-        """
-        return self._widgets[tag]
-
-    def __len__(self) -> int:
-        """
-        Get the number of widgets.
-
-        Returns:
-            int: The number of widgets.
-        """
-        return len(self._widgets)
-
-    def __getvalue__(self, tag: str):
-        """
-        Get the value of a widget.
-
-        Args:
-            tag (str): Tag to identify the widget.
-
-        Returns:
-            Any: The value of the widget.
-        """
-        return self.cfg[tag]
