@@ -33,7 +33,7 @@ format:
 	pre-commit run ruff-format --all-files
 
 pytest:
-	pytest --cov=ezgui4jupyter --cov-report=term-missing tests
+	pytest --cov=ezinput --cov-report=term-missing tests
 
 mypy:
 	mypy --ignore-missing-imports src
@@ -43,7 +43,7 @@ mypy-types:
 
 docs:
 	rm -rf docs
-	pdoc src/ezgui4jupyter -o docs
+	pdoc src/ezinput -o docs
 
 .DEFAULT_GOAL := help
 
