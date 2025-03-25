@@ -72,10 +72,10 @@ class EZInput:
         Initializes an instance of the EZInput class.
         Args:
             title (str): The title of the input interface. Defaults to "base".
-            mode (str): The mode of the input interface. Can be either "jupyter" or "prompt". Defaults to "prompt".
+            mode (str): The mode of the input interface. Can be either "jupyter" or "promp Defaults to "prompt".
             width (str): The width of the input interface layout. Defaults to "50%".
         """
-        
+        if mode == "jupyter":
             self._layout = widgets.Layout(width=width)
             self._style = {"description_width": "initial"}
             self._widgets = {}
