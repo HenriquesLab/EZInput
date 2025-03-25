@@ -68,14 +68,14 @@ def save_config(title: str, cfg: dict):
 
 class EZInput:
     def __init__(self, title: str = "base", mode="prompt", width: str = "50%"):
-        if mode == "jupyter":
-            """
-            Container for widgets.
-
-            Args:
-                title (str): The title of the widget container, used to store settings.
-                width (str): The width of the widget container.
-            """
+        """
+        Initializes an instance of the EZInput class.
+        Args:
+            title (str): The title of the input interface. Defaults to "base".
+            mode (str): The mode of the input interface. Can be either "jupyter" or "prompt". Defaults to "prompt".
+            width (str): The width of the input interface layout. Defaults to "50%".
+        """
+        
             self._layout = widgets.Layout(width=width)
             self._style = {"description_width": "initial"}
             self._widgets = {}
@@ -86,12 +86,6 @@ class EZInput:
             self.__class__ = EZInputJupyter
 
         elif mode == "prompt":
-            """
-            Initialize the GUI.
-
-            Args:
-                title (str): Title of the GUI.
-            """
             self.title = title
             self.cfg = get_config(title)
             self.__class__ = EZInputPrompt
