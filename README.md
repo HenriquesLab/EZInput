@@ -88,8 +88,6 @@ EZInput provides a unified API for both terminal and Jupyter notebook modes. The
 - **`add_float_range(tag, description, vmin, vmax, remember_value=False)`**: Add a float slider or range input.
 - **`add_check(tag, description, remember_value=False)`**: Add a yes/no or checkbox input.
 - **`add_dropdown(tag, options, description="", remember_value=False)`**: Add a dropdown menu.
-- **`add_path_completer(tag, description, remember_value=False)`**: Add a file path input with autocompletion.
-- **`add_file_upload(tag, accept=None, multiple=False)`**: Add a file upload widget (Jupyter only).
 - **`add_callback(tag, func, values, description="Run")`**: Add a function to be ran (if in jupyter, after the press of the generated button) that triggers a callback function.
 
 ### Saving and Restoring Settings
