@@ -12,7 +12,9 @@
 [![GitHub forks](https://img.shields.io/github/forks/HenriquesLab/EZInput?style=social)](https://github.com/HenriquesLab/EZInput/)
 [![DOI](https://img.shields.io/badge/Publication-Soon-purple)]()
 
-EZInput is a Python library that simplifies the creation of user interfaces both in the terminal and in Jupyter notebooks. It provides a convenient way to add various types of widgets, making it easier to interact with your code and visualize results.
+EZInput is a Python library that simplifies the creation of user interfaces both in the terminal and in Jupyter notebooks. It provides a convenient way to add various types of widgets, making it easier to interact with your code and visualize results.  
+  
+DISCLAIMER: the project is currently in alpha stage and will likely suffer changes in the API and functionality.
 
 ## Installation
 
