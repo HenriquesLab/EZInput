@@ -24,12 +24,23 @@ class Element:
 
 
 class EZInputPrompt:
+    """
+    A class to create terminal-based GUIs using `prompt_toolkit`.
+
+    Parameters
+    ----------
+    title : str
+        Title of the GUI, used to store settings.
+    """
+
     def __init__(self, title: str):
         """
         Initialize the GUI.
 
-        Args:
-            title (str): Title of the GUI.
+        Parameters
+        ----------
+        title : str
+            Title of the GUI.
         """
         pass
 
@@ -38,11 +49,15 @@ class EZInputPrompt:
         @unified
         Get the value of a widget.
 
-        Args:
-            tag (str): Tag to identify the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
 
-        Returns:
-            Any: The value of the widget.
+        Returns
+        -------
+        Any
+            The value of the widget.
         """
         return self.elements[tag].value
 
@@ -51,8 +66,12 @@ class EZInputPrompt:
         @unified
         Add a header to the GUI.
 
-        Args:
-            message (str): The message to display.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        label : str
+            The label text to display.
         """
         self.cfg[tag] = label
         self.elements[tag] = Element(self.cfg[tag])
@@ -73,13 +92,25 @@ class EZInputPrompt:
         @unified
         Add a text prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        placeholder : str, optional
+            Placeholder text for the input field. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            str: The text entered.
+        Returns
+        -------
+        str
+            The text entered by the user.
         """
         if placeholder:
             kwargs["default"] = placeholder
@@ -97,13 +128,20 @@ class EZInputPrompt:
         @unified
         Add a button widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            func: The function to call when the button is clicked.
-            label (str): The label for the button.
-            funcargs (dict): The arguments to pass to the function.
-            args: Args for the widget.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        func : callable
+            The function to call when the button is clicked.
+        values : dict
+            Dictionary of widget values to pass to the callback function.
+        description : str, optional
+            The label for the button. Defaults to "Run".
+        *args : tuple
+            Additional positional arguments for the button.
+        **kwargs : dict
+            Additional keyword arguments for the button.
         """
         func(values)
 
@@ -118,15 +156,27 @@ class EZInputPrompt:
     ) -> str:
         """
         @unified
-        Add a text prompt to the GUI.
+        Add a text area prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        placeholder : str, optional
+            Placeholder text for the input field. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            str: The text entered.
+        Returns
+        -------
+        str
+            The text entered by the user.
         """
         if placeholder:
             kwargs["default"] = placeholder
@@ -149,17 +199,29 @@ class EZInputPrompt:
     ) -> float:
         """
         @unified
-        Add an integer range to the GUI.
+        Add a float range prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            vmin (int): Minimum value of the range.
-            vmax (int): Maximum value of the range.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : float
+            Minimum value of the range.
+        vmax : float
+            Maximum value of the range.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        float
+            The float value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
@@ -193,17 +255,29 @@ class EZInputPrompt:
     ) -> int:
         """
         @unified
-        Add an integer range to the GUI.
+        Add an integer range prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            vmin (int): Minimum value of the range.
-            vmax (int): Maximum value of the range.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the range.
+        vmax : int
+            Maximum value of the range.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        int
+            The integer value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
@@ -237,13 +311,23 @@ class EZInputPrompt:
         @unified
         Add a yes/no prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            bool: True if yes, False if no.
+        Returns
+        -------
+        bool
+            True if "yes" is selected, False otherwise.
         """
         if "default" in kwargs and isinstance(kwargs["default"], bool):
             kwargs["default"] = "yes" if kwargs["default"] else "no"
@@ -281,13 +365,23 @@ class EZInputPrompt:
         @unified
         Add an integer prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        int
+            The integer value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
@@ -320,17 +414,29 @@ class EZInputPrompt:
     ) -> int:
         """
         @unified
-        Add an integer range to the GUI.
+        Add an integer range prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            vmin (int): Minimum value of the range.
-            vmax (int): Maximum value of the range.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the range.
+        vmax : int
+            Maximum value of the range.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        int
+            The integer value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
@@ -364,13 +470,23 @@ class EZInputPrompt:
         @unified
         Add an integer prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        float
+            The float value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], float):
             kwargs["default"] = str(kwargs["default"])
@@ -403,17 +519,29 @@ class EZInputPrompt:
     ) -> float:
         """
         @unified
-        Add an integer range to the GUI.
+        Add an integer range prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            vmin (int): Minimum value of the range.
-            vmax (int): Maximum value of the range.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : float
+            Minimum value of the range.
+        vmax : float
+            Maximum value of the range.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            int: The integer entered.
+        Returns
+        -------
+        float
+            The float value entered by the user.
         """
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
@@ -445,16 +573,28 @@ class EZInputPrompt:
         **kwargs,
     ) -> str:
         """
+        @unified
         Add a dropdown prompt to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            choices (list): List of choices for the dropdown.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        options : list
+            List of choices for the dropdown.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            str: The selected choice.
+        Returns
+        -------
+        str
+            The selected choice.
         """
         if remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
@@ -481,13 +621,23 @@ class EZInputPrompt:
         @prompt
         Add a path completer to the GUI.
 
-        Args:
-            tag (str): Tag to identify the widget.
-            message (str): The message to display.
-            remember_value (bool, optional): Remember the last value. Defaults to False.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        message : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last entered path. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the `prompt` function.
+        **kwargs : dict
+            Additional keyword arguments for the `prompt` function.
 
-        Returns:
-            Path: The path entered.
+        Returns
+        -------
+        Path
+            The path entered by the user.
         """
         if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
@@ -517,7 +667,7 @@ class EZInputPrompt:
     def show(self):
         """
         @unified
-        Does nothing, just enables full copy-pasting
+        Display the GUI. (No-op for terminal-based GUIs.)
         """
         pass
 
@@ -536,13 +686,18 @@ class EZInputPrompt:
 
 def get_config(title: Optional[str]):
     """
+    @unified
     Get the configuration dictionary without needing to initialize the GUI.
 
-    Args:
-        title (str): Title of the GUI. If None, returns the entire configuration dictionary.
+        Parameters
+        ----------
+        title : str
+            Title of the GUI. If None, returns the entire configuration dictionary.
 
-    Returns:
-        dict: The configuration dictionary.
+        Returns
+        -------
+        dict
+            The configuration dictionary.
     """
 
     config_file = CONFIG_PATH / f"{title}_prompt.yml"
@@ -558,11 +713,15 @@ def get_config(title: Optional[str]):
 
 def save_config(title: str, cfg: dict):
     """
+    @unified
     Save the configuration dictionary to a file.
 
-    Args:
-        title (str): Title of the GUI.
-        cfg (dict): Configuration dictionary.
+    Parameters
+    ----------
+    title : str
+        Title of the GUI.
+    cfg : dict
+        Configuration dictionary.
     """
     config_file = CONFIG_PATH / f"{title}_prompt.yml"
     config_file.parent.mkdir(exist_ok=True)

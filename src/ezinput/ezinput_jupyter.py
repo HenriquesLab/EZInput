@@ -19,16 +19,26 @@ if not os.path.exists(CONFIG_PATH):
 
 class EZInputJupyter:
     """
-    A class to help simplify the creation of GUIs in Jupyter notebooks using ipywidgets.
+    A class to create GUIs in Jupyter notebooks using `ipywidgets`.
+
+    Parameters
+    ----------
+    title : str, optional
+        Title of the GUI, used to store settings. Defaults to "basic_gui".
+    width : str, optional
+        Width of the widget container. Defaults to "50%".
     """
 
     def __init__(self, title="basic_gui", width="50%"):
         """
         Container for widgets.
 
-        Args:
-            title (str): The title of the widget container, used to store settings.
-            width (str): The width of the widget container.
+        Parameters
+        ----------
+        title : str, optional
+            The title of the widget container, used to store settings.
+        width : str, optional
+            The width of the widget container.
         """
         pass
 
@@ -37,34 +47,42 @@ class EZInputJupyter:
         @unified
         Get the value of a widget.
 
-        Args:
-            tag (str): Tag to identify the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
 
-        Returns:
-            Any: The value of the widget.
+        Returns
+        -------
+        Any
+            The value of the widget.
         """
         return self.elements[tag].value
 
     def __getitem__(self, tag: str) -> widgets.Widget:
         """
-        @jupyter
         Get a widget by tag.
 
-        Args:
-            tag (str): The tag of the widget.
+        Parameters
+        ----------
+        tag : str
+            The tag of the widget.
 
-        Returns:
-            widgets.Widget: The widget.
+        Returns
+        -------
+        widgets.Widget
+            The widget.
         """
         return self.elements[tag]
 
     def __len__(self) -> int:
         """
-        @jupyter
         Get the number of widgets.
 
-        Returns:
-            int: The number of widgets.
+        Returns
+        -------
+        int
+            The number of widgets.
         """
         return len(self.elements)
 
@@ -73,9 +91,16 @@ class EZInputJupyter:
         @unified
         Add a label widget to the container.
 
-        Args:
-            args: Args for the widget.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        label : str, optional
+            The label text to display. Defaults to "".
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         self._nLabels += 1
         self.elements[tag] = widgets.Label(
@@ -99,18 +124,20 @@ class EZInputJupyter:
         @unified
         Add a text widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
-
-        Example:
-            The following example demonstrates how to add a text widget to the GUI:
-
-            >>> gui = EZGUI()
-            >>> gui.add_text("text", "Enter some text:")
-            >>> gui.show()
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str, optional
+            The message to display. Defaults to "".
+        placeholder : str, optional
+            Placeholder text for the input field. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
@@ -131,13 +158,20 @@ class EZInputJupyter:
         @unified
         Add a button widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            func: The function to call when the button is clicked.
-            label (str): The label for the button.
-            funcargs (dict): The arguments to pass to the function.
-            args: Args for the widget.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        func : callable
+            The function to call when the button is clicked.
+        values : dict
+            Dictionary of widget values to pass to the callback function.
+        description : str, optional
+            The label for the button. Defaults to "Run".
+        *args : tuple
+            Additional positional arguments for the button.
+        **kwargs : dict
+            Additional keyword arguments for the button.
         """
         self.elements[tag] = widgets.Button(
             description=description,
@@ -157,10 +191,16 @@ class EZInputJupyter:
         @jupyter
         Add a button widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        label : str, optional
+            The label for the button. Defaults to "Run".
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         self.elements[tag] = widgets.Button(
             *args, **kwargs, layout=self._layout, style=self._style
@@ -179,11 +219,20 @@ class EZInputJupyter:
         @unified
         Add a textarea widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str, optional
+            The message to display. Defaults to "".
+        placeholder : str, optional
+            Placeholder text for the input field. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
@@ -208,13 +257,24 @@ class EZInputJupyter:
     ):
         """
         @unified
-        Add a integer slider widget to the container.
+        Add an integer slider widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the slider.
+        vmax : int
+            Maximum value of the slider.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg and min <= self.cfg[tag] <= max:
             kwargs["value"] = int(self.cfg[tag])
@@ -240,13 +300,24 @@ class EZInputJupyter:
     ):
         """
         @unified
-        Add a integer slider widget to the container.
+        Add a float slider widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : float
+            Minimum value of the slider.
+        vmax : float
+            Maximum value of the slider.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg and min <= self.cfg[tag] <= max:
             kwargs["value"] = int(self.cfg[tag])
@@ -264,13 +335,21 @@ class EZInputJupyter:
         self, tag: str, description: str, *args, remember_value=False, **kwargs
     ):
         """
+        @unified
         Add a checkbox widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
@@ -286,13 +365,21 @@ class EZInputJupyter:
         self, tag, description: str = "", *args, remember_value=False, **kwargs
     ):
         """
-        Add a integer text widget to the container.
+        @unified
+        Add an integer text widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str, optional
+            The message to display. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
@@ -316,13 +403,25 @@ class EZInputJupyter:
         **kwargs,
     ):
         """
+        @unified
         Add a bounded integer text widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the input field.
+        vmax : int
+            Maximum value of the input field.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
@@ -340,13 +439,21 @@ class EZInputJupyter:
         self, tag, description: str = "", *args, remember_value=False, **kwargs
     ):
         """
+        @unified
         Add a float text widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str, optional
+            The message to display. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
@@ -369,13 +476,25 @@ class EZInputJupyter:
         **kwargs,
     ):
         """
+        @unified
         Add a bounded float text widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the input field.
+        vmax : int
+            Maximum value of the input field.
+        remember_value : bool, optional
+            Whether to remember the last entered value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
@@ -402,15 +521,20 @@ class EZInputJupyter:
         @unified
         Add a dropdown widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            remember_value (bool): Remember the last value.
-            kwargs: Kwargs for the widget.
-
-        Example:
-            >>> gui = EZGUI()
-            >>> gui.add_dropdown("dropdown", options=["A", "B", "C"])
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        options : list
+            List of choices for the dropdown.
+        description : str, optional
+            The message to display. Defaults to "".
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         print(self.cfg)
         if remember_value and tag in self.cfg and self.cfg[tag] in options:
@@ -433,12 +557,18 @@ class EZInputJupyter:
         @jupyter
         Add a file upload widget to the container.
 
-        Args:
-            tag (str): The tag to identify the widget.
-            args: Args for the widget.
-            accept: The file types to accept.
-            multiple (bool): Allow multiple files to be uploaded.
-            kwargs: Kwargs for the widget.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        accept : str, optional
+            The file types to accept. Defaults to None.
+        multiple : bool, optional
+            Allow multiple files to be uploaded. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
         """
         self.elements[tag] = FileChooser()
         if accept is not None:
@@ -460,7 +590,7 @@ class EZInputJupyter:
     def show(self):
         """
         @unified
-        Show the widgets in the container.
+        Display the widgets in the container.
         """
         self._main_display.children = tuple(self.elements.values())
         clear_output()
@@ -469,7 +599,7 @@ class EZInputJupyter:
     def clear_elements(self):
         """
         @unified
-        Clear the widgets in the container.
+        Clear all widgets from the container.
         """
         self.elements = {}
         self._nLabels = 0
@@ -478,13 +608,18 @@ class EZInputJupyter:
 
 def get_config(title: Optional[str]) -> dict:
     """
+    @unified
     Get the configuration dictionary without needing to initialize the GUI.
 
-    Args:
-        title (str): The title of the GUI. If None, returns the entire configuration.
+    Parameters
+    ----------
+    title : str, optional
+        The title of the GUI. If None, returns the entire configuration.
 
-    Returns:
-        dict: The configuration dictionary.
+    Returns
+    -------
+    dict
+        The configuration dictionary.
     """
 
     config_file = CONFIG_PATH / f"{title}_jupyter.yml"
@@ -500,11 +635,15 @@ def get_config(title: Optional[str]) -> dict:
 
 def save_config(title: str, cfg: dict):
     """
+    @unified
     Save the configuration dictionary to file.
 
-    Args:
-        title (str): The title of the GUI.
-        cfg (dict): The configuration dictionary.
+    Parameters
+    ----------
+    title : str
+        The title of the GUI.
+    cfg : dict
+        The configuration dictionary.
     """
     config_file = CONFIG_PATH / f"{title}_jupyter.yml"
     config_file.parent.mkdir(exist_ok=True)
