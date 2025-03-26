@@ -53,4 +53,4 @@ where = ["src"]
 "*" = ["*.yaml"]
 
 [tool.pytest.ini_options]
-addopts = "--nbmake"
+addopts = "--nbmake --cov=ezinput --cov-report=term-missing"
