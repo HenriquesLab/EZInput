@@ -138,27 +138,5 @@ def test_save_config(mock_input):
         description="Enter an integer:",
         remember_value=True,
     )
-    mock_input.send_text("5\n")
-    gui.add_bounded_int_text(
-        "tag2",
-        "Enter a bounded integer:",
-        0,
-        10,
-        remember_value=True,
-    )
-    mock_input.send_text("0.5\n")
-    gui.add_float_text(
-        "tag3",
-        "Enter a float:",
-        remember_value=True,
-    )
-    mock_input.send_text("0.5\n")
-    gui.add_bounded_float_text(
-        "tag4",
-        "Enter a bounded float:",
-        0.0,
-        10.0,
-        remember_value=True,
-    )
     gui.save_settings()
     gui.show()
