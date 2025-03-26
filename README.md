@@ -4,7 +4,7 @@
 [![Python Version](https://img.shields.io/pypi/pyversions/ezinput.svg?color=green)](https://python.org)
 [![Downloads](https://img.shields.io/pypi/dm/ezinput)](https://pypi.org/project/ezinput)
 [![Docs](https://img.shields.io/badge/documentation-link-blueviolet)](https://henriqueslab.github.io/EZInput/ezinput.html)
-[![License](https://img.shields.io/github/license/HenriquesLab/oncall_test.yml?color=Green)](https://github.com/HenriquesLab/oncall_test.yml/blob/main/LICENSE.txt)
+[![License](https://img.shields.io/github/license/HenriquesLab/EZInput?color=Green)](https://github.com/HenriquesLab/EZInput/blob/main/LICENSE.txt)
 [![Tests](https://github.com/HenriquesLab/EZInput/actions/workflows/oncall_test.yml/badge.svg)](https://github.com/HenriquesLab/EZInput/actions/workflows/oncall_test.yml.yml)
 [![Coverage](https://img.shields.io/codecov/c/github/HenriquesLab/EZInput.svg?branch=main)](https://img.shields.io/codecov/c/github/HenriquesLab/EZInput?branch=main)
 [![Contributors](https://img.shields.io/github/contributors-anon/HenriquesLab/EZInput)](https://github.com/HenriquesLab/EZInput/graphs/contributors)
