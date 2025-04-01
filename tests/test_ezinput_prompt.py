@@ -8,7 +8,7 @@ def test_env_detection():
 
 def test_label():
     gui = EZInput("Test_prompt_2")
-    gui.add_label("tag", label="Test Header")
+    gui.add_label(value="Test Header")
 
 
 def test_text(mock_input):
@@ -38,13 +38,12 @@ def test_callback(mock_input):
     def custom_sum_text(values):
         sum = values["test_text"].value + values["test_text_2"].value
         gui.add_label(
-            "tag2",
-            label=f"Sum of text: {sum}",
+            value=f"Sum of text: {sum}",
         )
         gui.show()
 
     gui = EZInput("Test_prompt_5")
-    gui.add_label("tag", label="Test Header")
+    gui.add_label(value="Test Header")
 
     mock_input.send_text("a\n")
     gui.add_text(
@@ -139,4 +138,15 @@ def test_save_config(mock_input):
         remember_value=True,
     )
     gui.save_settings()
+    gui.show()
+
+
+def test_path_completion(mock_input):
+    gui = EZInput("Test_prompt_12")
+    mock_input.send_text("./\n")
+    gui.add_path_completer(
+        "path",
+        description="Enter a file path:",
+        remember_value=True,
+    )
     gui.show()
