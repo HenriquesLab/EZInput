@@ -15,7 +15,7 @@ from .ezinput_jupyter import get_config as get_config_jupyter
 A module to help simplify the create of GUIs in Jupyter notebooks and CLIs.
 """
 
-CONFIG_PATH = Path.home() / ".config" / "ezinput"
+CONFIG_PATH = Path.home() / ".ezinput"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)

@@ -11,7 +11,7 @@ from typing import Optional
 A module to help simplify the create of GUIs in Jupyter notebooks using ipywidgets.
 """
 
-CONFIG_PATH = Path.home() / ".config" / "ezinput"
+CONFIG_PATH = Path.home() / ".ezinput"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)
@@ -324,8 +324,8 @@ class EZInputJupyter:
         self.add_int_range(
             tag,
             description,
-            min,
-            max,
+            vmin=min,
+            vmax=max,
             *args,
             remember_value=remember_value,
             **kwargs,
@@ -408,8 +408,8 @@ class EZInputJupyter:
         self.add_float_range(
             tag,
             description,
-            min,
-            max,
+            vmin=min,
+            vmax=max,
             *args,
             remember_value=remember_value,
             **kwargs,

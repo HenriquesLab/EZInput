@@ -12,7 +12,7 @@ A module to help simplify the create of GUIs in terminals using python prompt-to
 """
 
 
-CONFIG_PATH = Path.home() / ".config" / "ezinput"
+CONFIG_PATH = Path.home() / ".ezinput"
 
 if not os.path.exists(CONFIG_PATH):
     os.makedirs(CONFIG_PATH)
