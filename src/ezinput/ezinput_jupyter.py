@@ -201,7 +201,11 @@ class EZInputJupyter:
             Additional keyword arguments for the widget.
         """
         self.elements[tag] = widgets.Button(
-            *args, **kwargs, layout=self._layout, style=self._style
+            description=description,
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=self._style,
         )
 
     def add_text_area(
