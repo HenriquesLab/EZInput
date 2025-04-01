@@ -61,7 +61,7 @@ class EZInputPrompt:
         """
         return self.elements[tag].value
 
-    def add_label(self, tag: str, label: str):
+    def add_label(self, value: str = ""):
         """
         @unified
         Add a header to the GUI.
@@ -73,11 +73,14 @@ class EZInputPrompt:
         label : str
             The label text to display.
         """
-        self.cfg[tag] = label
-        self.elements[tag] = Element(self.cfg[tag])
-        print("-" * len(label))
-        print(label)
-        print("-" * len(label))
+        self._nLabels += 1
+        self.cfg[f"label_{self._nLabels}"] = value
+        self.elements[f"label_{self._nLabels}"] = Element(
+            self.cfg[f"label_{self._nLabels}"]
+        )
+        print("-" * len(value))
+        print(value)
+        print("-" * len(value))
 
     def add_text(
         self,
@@ -615,7 +618,7 @@ class EZInputPrompt:
         return self.elements[tag]
 
     def add_path_completer(
-        self, tag: str, message: str, *args, remember_value=False, **kwargs
+        self, tag: str, description: str, *args, remember_value=False, **kwargs
     ) -> Path:
         """
         @prompt
@@ -625,7 +628,7 @@ class EZInputPrompt:
         ----------
         tag : str
             Tag to identify the widget.
-        message : str
+        description : str
             The message to display.
         remember_value : bool, optional
             Whether to remember the last entered path. Defaults to False.
@@ -644,7 +647,7 @@ class EZInputPrompt:
 
         value = prompt(  # type: ignore[misc]
             *args,
-            message=message + ": ",
+            message=description + ": ",
             completer=PathCompleter(),
             validator=Validator.from_callable(
                 lambda x: Path(x).exists(),

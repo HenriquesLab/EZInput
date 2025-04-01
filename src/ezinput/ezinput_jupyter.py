@@ -86,15 +86,13 @@ class EZInputJupyter:
         """
         return len(self.elements)
 
-    def add_label(self, tag, label="", *args, **kwargs):
+    def add_label(self, value="", *args, **kwargs):
         """
         @unified
         Add a label widget to the container.
 
         Parameters
         ----------
-        tag : str
-            Tag to identify the widget.
         label : str, optional
             The label text to display. Defaults to "".
         *args : tuple
@@ -103,8 +101,8 @@ class EZInputJupyter:
             Additional keyword arguments for the widget.
         """
         self._nLabels += 1
-        self.elements[tag] = widgets.Label(
-            value=label,
+        self.elements[f"label_{self._nLabels}"] = widgets.Label(
+            value=value,
             *args,
             **kwargs,
             layout=self._layout,
@@ -186,7 +184,7 @@ class EZInputJupyter:
 
         self.elements[tag].on_click(wrapped)
 
-    def add_button(self, tag, label="Run", *args, **kwargs):
+    def add_button(self, tag, description="Run", *args, **kwargs):
         """
         @jupyter
         Add a button widget to the container.
@@ -195,7 +193,7 @@ class EZInputJupyter:
         ----------
         tag : str
             Tag to identify the widget.
-        label : str, optional
+        description : str, optional
             The label for the button. Defaults to "Run".
         *args : tuple
             Additional positional arguments for the widget.
@@ -288,6 +286,47 @@ class EZInputJupyter:
             style=self._style,
         )
 
+    def add_int_slider(
+        self,
+        tag: str,
+        description: str,
+        min: int,
+        max: int,
+        *args,
+        remember_value=False,
+        **kwargs,
+    ):
+        """
+        @jupyter
+        Add an integer slider widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        vmin : int
+            Minimum value of the slider.
+        vmax : int
+            Maximum value of the slider.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        self.add_int_range(
+            tag,
+            description,
+            min,
+            max,
+            *args,
+            remember_value=remember_value,
+            **kwargs,
+        )
+
     def add_float_range(
         self,
         tag: str,
@@ -329,6 +368,47 @@ class EZInputJupyter:
             **kwargs,
             layout=self._layout,
             style=self._style,
+        )
+
+    def add_float_slider(
+        self,
+        tag: str,
+        description: str,
+        min: int,
+        max: int,
+        *args,
+        remember_value=False,
+        **kwargs,
+    ):
+        """
+        @jupyter
+        Add an float slider widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        min : float
+            Minimum value of the slider.
+        max : float
+            Maximum value of the slider.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        self.add_float_range(
+            tag,
+            description,
+            min,
+            max,
+            *args,
+            remember_value=remember_value,
+            **kwargs,
         )
 
     def add_check(
@@ -548,6 +628,34 @@ class EZInputJupyter:
             **kwargs,
             layout=self._layout,
             style=self._style,
+        )
+
+    def add_checkbox(
+        self, tag: str, description: str, *args, remember_value=False, **kwargs
+    ):
+        """
+        @jupyter
+        Add a checkbox widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        description : str
+            The message to display.
+        remember_value : bool, optional
+            Whether to remember the last selected value. Defaults to False.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        self.add_check(
+            tag,
+            description=description,
+            remember_value=remember_value,
+            *args,
+            **kwargs,
         )
 
     def add_file_upload(

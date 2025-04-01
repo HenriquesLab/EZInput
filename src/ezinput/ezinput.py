@@ -51,10 +51,12 @@ class EZInput:
             else:
                 self.elements = {}
                 self.mode = "prompt"
+                self._nLabels = 0
                 self.cfg = get_config_prompt(self.title)
                 self.__class__ = EZInputPrompt
         except Exception:
             self.elements = {}
             self.mode = "prompt"
+            self._nLabels = 0
             self.cfg = get_config_prompt(self.title)
             self.__class__ = EZInputPrompt
