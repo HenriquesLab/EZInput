@@ -146,6 +146,7 @@ class EZInputPrompt:
         **kwargs : dict
             Additional keyword arguments for the button.
         """
+        self.save_settings()
         func(values)
 
     def add_text_area(

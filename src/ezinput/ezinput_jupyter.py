@@ -180,6 +180,7 @@ class EZInputJupyter:
         )
 
         def wrapped(button):
+            self.save_settings()
             func(values)
 
         self.elements[tag].on_click(wrapped)
