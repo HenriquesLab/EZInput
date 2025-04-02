@@ -7,9 +7,7 @@ from pathlib import Path
 from typing import Optional
 
 from .ezinput_prompt import EZInputPrompt
-from .ezinput_prompt import get_config as get_config_prompt
 from .ezinput_jupyter import EZInputJupyter
-from .ezinput_jupyter import get_config as get_config_jupyter
 
 """
 A module to help simplify the create of GUIs in Jupyter notebooks and CLIs.
@@ -22,7 +20,13 @@ if not os.path.exists(CONFIG_PATH):
 
 
 class EZInput:
-    def __init__(self, title: str = "base", width: str = "50%", mode=None):
+    def __init__(
+        self,
+        title: str = "base",
+        width: str = "50%",
+        mode=None,
+        params_file: Optional[str] = None,
+    ):
         """
         Initializes an instance of the EZInput class.
         Args:
@@ -32,9 +36,86 @@ class EZInput:
 
         self.title = title
         self.mode = None
+        self._nLabels = 0
+        self.cfg = self._get_config(title)
+        if params_file is not None:
+            self.params = self._load_params(params_file)
+            print(self.params)
+        else:
+            self.params = None
+        self.elements = {}
 
         if mode is None:
             self._detect_env(width)
+
+    def _load_params(self, params_file: Optional[str] = None):
+        """
+        Loads parameters from a YAML file.
+        Args:
+            params_file (str): The path to the YAML file containing parameters.
+        """
+        if os.path.exists(params_file):
+            with open(params_file, "r") as stream:
+                return yaml.safe_load(stream)
+        else:
+            return None
+
+    def _get_config(self, title: Optional[str]) -> dict:
+        """
+        Get the configuration dictionary without needing to initialize the GUI.
+
+        Parameters
+        ----------
+        title : str, optional
+            The title of the GUI. If None, returns the entire configuration.
+
+        Returns
+        -------
+        dict
+            The configuration dictionary.
+        """
+
+        config_file = CONFIG_PATH / f"{title}.yml"
+
+        if not config_file.exists():
+            return {}
+
+        with open(config_file, "r") as f:
+            return yaml.load(f, Loader=yaml.SafeLoader)
+
+    def save_settings(self):
+        """
+        @unified
+        Save the widget values to the configuration file.
+        """
+        for tag in self.elements:
+            if tag.startswith("label_"):
+                pass
+            elif hasattr(self.elements[tag], "value"):
+                self.cfg[tag] = self.elements[tag].value
+        self._save_config(self.title, self.cfg)
+
+    def _save_config(self, title: str, cfg: dict):
+        """
+        @unified
+        Save the configuration dictionary to file.
+
+        Parameters
+        ----------
+        title : str
+            The title of the GUI.
+        cfg : dict
+            The configuration dictionary.
+        """
+        config_file = CONFIG_PATH / f"{title}.yml"
+        config_file.parent.mkdir(exist_ok=True)
+
+        base_config = self._get_config(title)  # loads the config file
+        for key, value in cfg.items():
+            base_config[key] = value
+
+        with open(config_file, "w") as f:
+            yaml.dump(base_config, f)
 
     def _detect_env(self, width):
         try:
@@ -42,21 +123,12 @@ class EZInput:
             if "IPKernelApp" in get_ipython().config:
                 self._layout = widgets.Layout(width=width)
                 self._style = {"description_width": "initial"}
-                self.elements = {}
-                self._nLabels = 0
                 self._main_display = widgets.VBox()
                 self.mode = "jupyter"
-                self.cfg = get_config_jupyter(self.title)
                 self.__class__ = EZInputJupyter
             else:
-                self.elements = {}
                 self.mode = "prompt"
-                self._nLabels = 0
-                self.cfg = get_config_prompt(self.title)
                 self.__class__ = EZInputPrompt
         except Exception:
-            self.elements = {}
             self.mode = "prompt"
-            self._nLabels = 0
-            self.cfg = get_config_prompt(self.title)
             self.__class__ = EZInputPrompt

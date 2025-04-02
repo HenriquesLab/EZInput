@@ -137,7 +137,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
 
         self.elements[tag] = widgets.Text(
@@ -237,7 +240,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
         self.elements[tag] = widgets.Textarea(
             description=description,
@@ -279,7 +285,14 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg and min <= self.cfg[tag] <= max:
+        if self.params is not None:
+            if tag in self.params and vmin <= self.params[tag] <= vmax:
+                kwargs["value"] = self.params[tag]
+        elif (
+            remember_value
+            and tag in self.cfg
+            and vmin <= self.cfg[tag] <= vmax
+        ):
             kwargs["value"] = int(self.cfg[tag])
         self.elements[tag] = widgets.IntSlider(
             description=description,
@@ -363,7 +376,14 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg and min <= self.cfg[tag] <= max:
+        if self.params is not None:
+            if tag in self.params and vmin <= self.params[tag] <= vmax:
+                kwargs["value"] = self.params[tag]
+        elif (
+            remember_value
+            and tag in self.cfg
+            and vmin <= self.cfg[tag] <= vmax
+        ):
             kwargs["value"] = int(self.cfg[tag])
         self.elements[tag] = widgets.FloatSlider(
             description=description,
@@ -436,7 +456,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
         self.elements[tag] = widgets.Checkbox(
             description=description,
@@ -466,7 +489,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
 
         self.elements[tag] = widgets.IntText(
@@ -508,7 +534,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
         self.elements[tag] = widgets.BoundedIntText(
             min=vmin,
@@ -540,7 +569,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
         self.elements[tag] = widgets.FloatText(
             description=description,
@@ -581,8 +613,12 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+
         self.elements[tag] = widgets.BoundedFloatText(
             min=vmin,
             max=vmax,
@@ -621,11 +657,11 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        print(self.cfg)
         if remember_value and tag in self.cfg and self.cfg[tag] in options:
-            print(self.cfg[tag])
             kwargs["value"] = self.cfg[tag]
-            print(kwargs["value"])
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
         self.elements[tag] = widgets.Dropdown(
             options=options,
             description=description,
@@ -687,18 +723,46 @@ class EZInputJupyter:
         if accept is not None:
             self.elements[tag].filter_pattern = accept
 
+    def save_parameters(self, path: str):
+        """
+        @unified
+        Save the widget values to a file.
+
+        Parameters
+        ----------
+        path : str
+            The path to save the file.
+        """
+        if not path.endswith(".yml"):
+            path += f"{self.title}_parameters.yml"
+        out = {}
+        for tag in self.elements:
+            if tag.startswith("label_"):
+                pass
+            elif hasattr(self.elements[tag], "value"):
+                out[tag] = self.elements[tag].value
+        with open(path, "w") as f:
+            yaml.dump(out, f)
+
     def save_settings(self):
         """
         @unified
         Save the widget values to the configuration file.
         """
-        print(self.elements.keys())
         for tag in self.elements:
             if tag.startswith("label_"):
                 pass
             elif hasattr(self.elements[tag], "value"):
                 self.cfg[tag] = self.elements[tag].value
-        save_config(self.title, self.cfg)
+        config_file = CONFIG_PATH / f"{self.title}.yml"
+        config_file.parent.mkdir(exist_ok=True)
+
+        base_config = self._get_config(self.title)  # loads the config file
+        for key, value in self.cfg.items():
+            base_config[key] = value
+
+        with open(config_file, "w") as f:
+            yaml.dump(base_config, f)
 
     def show(self):
         """
@@ -718,52 +782,25 @@ class EZInputJupyter:
         self._nLabels = 0
         self._main_display.children = ()
 
+    def _get_config(self, title: Optional[str]) -> dict:
+        """
+        Get the configuration dictionary without needing to initialize the GUI.
 
-def get_config(title: Optional[str]) -> dict:
-    """
-    @unified
-    Get the configuration dictionary without needing to initialize the GUI.
+        Parameters
+        ----------
+        title : str, optional
+            The title of the GUI. If None, returns the entire configuration.
 
-    Parameters
-    ----------
-    title : str, optional
-        The title of the GUI. If None, returns the entire configuration.
+        Returns
+        -------
+        dict
+            The configuration dictionary.
+        """
 
-    Returns
-    -------
-    dict
-        The configuration dictionary.
-    """
+        config_file = CONFIG_PATH / f"{title}.yml"
 
-    config_file = CONFIG_PATH / f"{title}_jupyter.yml"
+        if not config_file.exists():
+            return {}
 
-    if not config_file.exists():
-        return {}
-
-    with open(config_file, "r") as f:
-        cfg = yaml.load(f, Loader=yaml.SafeLoader)
-
-    return cfg
-
-
-def save_config(title: str, cfg: dict):
-    """
-    @unified
-    Save the configuration dictionary to file.
-
-    Parameters
-    ----------
-    title : str
-        The title of the GUI.
-    cfg : dict
-        The configuration dictionary.
-    """
-    config_file = CONFIG_PATH / f"{title}_jupyter.yml"
-    config_file.parent.mkdir(exist_ok=True)
-
-    base_config = get_config(title)  # loads the config file
-    for key, value in cfg.items():
-        base_config[key] = value
-
-    with open(config_file, "w") as f:
-        yaml.dump(base_config, f)
+        with open(config_file, "r") as f:
+            return yaml.load(f, Loader=yaml.SafeLoader)

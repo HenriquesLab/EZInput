@@ -115,6 +115,8 @@ def test_numerical_text(mock_input):
         remember_value=True,
     )
     gui.show()
+    gui.save_parameters("")
+    gui.save_parameters("test_params.yml")
 
 
 def test_dropdown(mock_input):
@@ -147,6 +149,104 @@ def test_path_completion(mock_input):
     gui.add_path_completer(
         "path",
         description="Enter a file path:",
+        remember_value=True,
+    )
+    gui.show()
+
+
+def test_param_loading(mock_input):
+    gui = EZInput("Test_prompt_13", params_file="test_params.yml")
+    mock_input.send_text("10\n")
+    gui.add_int_text(
+        "tag",
+        description="Enter an integer:",
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_bounded_int_text(
+        "tag2",
+        "Enter a bounded integer:",
+        0,
+        10,
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_float_text(
+        "tag3",
+        "Enter a float:",
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_bounded_float_text(
+        "tag4",
+        "Enter a bounded float:",
+        0.0,
+        10.0,
+        remember_value=True,
+    )
+    gui.show()
+
+
+def test_param_loading_auto(mock_input):
+    gui = EZInput("Test_prompt_14", params_file="Test_prompt_9_parameters.yml")
+    mock_input.send_text("\n")
+    gui.add_int_text(
+        "tag",
+        description="Enter an integer:",
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_bounded_int_text(
+        "tag2",
+        "Enter a bounded integer:",
+        0,
+        10,
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_float_text(
+        "tag3",
+        "Enter a float:",
+        remember_value=True,
+    )
+    mock_input.send_text("\n")
+    gui.add_bounded_float_text(
+        "tag4",
+        "Enter a bounded float:",
+        0.0,
+        10.0,
+        remember_value=True,
+    )
+    gui.show()
+
+def test_param_loading_non_existing(mock_input):
+    gui = EZInput("Test_prompt_15", params_file="False_parameters.yml")
+    mock_input.send_text("2\n")
+    gui.add_int_text(
+        "tag",
+        description="Enter an integer:",
+        remember_value=True,
+    )
+    mock_input.send_text("5\n")
+    gui.add_bounded_int_text(
+        "tag2",
+        "Enter a bounded integer:",
+        0,
+        10,
+        remember_value=True,
+    )
+    mock_input.send_text("0.5\n")
+    gui.add_float_text(
+        "tag3",
+        "Enter a float:",
+        remember_value=True,
+    )
+    mock_input.send_text("5.0\n")
+    gui.add_bounded_float_text(
+        "tag4",
+        "Enter a bounded float:",
+        0.0,
+        10.0,
         remember_value=True,
     )
     gui.show()

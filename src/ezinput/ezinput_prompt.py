@@ -117,7 +117,10 @@ class EZInputPrompt:
         """
         if placeholder:
             kwargs["default"] = placeholder
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
         value = prompt(message=description + ": ", *args, **kwargs)  # type: ignore[misc]
         self.cfg[tag] = value
@@ -184,7 +187,10 @@ class EZInputPrompt:
         """
         if placeholder:
             kwargs["default"] = placeholder
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
         value = prompt(message=description + ": ", *args, **kwargs)  # type: ignore[misc]
         self.cfg[tag] = value
@@ -230,7 +236,10 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
 
         value = prompt(  # type: ignore[misc]
@@ -286,7 +295,10 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
 
         value = prompt(  # type: ignore[misc]
@@ -336,7 +348,13 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], bool):
             kwargs["default"] = "yes" if kwargs["default"] else "no"
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                if self.params[tag]:
+                    kwargs["default"] = "yes"
+                else:
+                    kwargs["default"] = "no"
+        elif remember_value and tag in self.cfg:
             if self.cfg[tag]:
                 kwargs["default"] = "yes"
             else:
@@ -387,10 +405,14 @@ class EZInputPrompt:
         int
             The integer value entered by the user.
         """
+        print("ahhhhhhhhh")
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
         value = prompt(  # type: ignore[misc]
             *args,
@@ -404,6 +426,7 @@ class EZInputPrompt:
         )
         self.cfg[tag] = int(value)
         self.elements[tag] = Element(self.cfg[tag])
+        print("ahhhhhhhhh")
         return self.elements[tag]
 
     def add_bounded_int_text(
@@ -445,7 +468,10 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
 
         value = prompt(  # type: ignore[misc]
@@ -495,7 +521,10 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], float):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
         value = prompt(  # type: ignore[misc]
             *args,
@@ -550,7 +579,10 @@ class EZInputPrompt:
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
 
         value = prompt(  # type: ignore[misc]
@@ -600,7 +632,10 @@ class EZInputPrompt:
         str
             The selected choice.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
 
         value = prompt(  # type: ignore[misc]
@@ -643,7 +678,10 @@ class EZInputPrompt:
         Path
             The path entered by the user.
         """
-        if remember_value and tag in self.cfg:
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["default"] = str(self.params[tag])
+        elif remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
 
         value = prompt(  # type: ignore[misc]
@@ -668,12 +706,26 @@ class EZInputPrompt:
         """
         self.elements = {}
 
-    def show(self):
+    def save_parameters(self, path: str):
         """
         @unified
-        Display the GUI. (No-op for terminal-based GUIs.)
+        Save the widget values to a file.
+
+        Parameters
+        ----------
+        path : str
+            The path to save the file.
         """
-        pass
+        if not path.endswith(".yml"):
+            path += f"{self.title}_parameters.yml"
+        out = {}
+        for tag in self.elements:
+            if tag.startswith("label_"):
+                pass
+            elif hasattr(self.elements[tag], "value"):
+                out[tag] = self.elements[tag].value
+        with open(path, "w") as f:
+            yaml.dump(out, f)
 
     def save_settings(self):
         """
@@ -685,54 +737,42 @@ class EZInputPrompt:
                 pass
             elif hasattr(self.elements[tag], "value"):
                 self.cfg[tag] = self.elements[tag].value
-        save_config(self.title, self.cfg)
+        config_file = CONFIG_PATH / f"{self.title}.yml"
+        config_file.parent.mkdir(exist_ok=True)
 
+        base_config = self._get_config(self.title)  # loads the config file
+        for key, value in self.cfg.items():
+            base_config[key] = value
 
-def get_config(title: Optional[str]):
-    """
-    @unified
-    Get the configuration dictionary without needing to initialize the GUI.
+        with open(config_file, "w") as f:
+            yaml.dump(base_config, f)
+
+    def show(self):
+        """
+        @unified
+        Display the GUI. (No-op for terminal-based GUIs.)
+        """
+        pass
+
+    def _get_config(self, title: Optional[str]) -> dict:
+        """
+        Get the configuration dictionary without needing to initialize the GUI.
 
         Parameters
         ----------
-        title : str
-            Title of the GUI. If None, returns the entire configuration dictionary.
+        title : str, optional
+            The title of the GUI. If None, returns the entire configuration.
 
         Returns
         -------
         dict
             The configuration dictionary.
-    """
+        """
 
-    config_file = CONFIG_PATH / f"{title}_prompt.yml"
+        config_file = CONFIG_PATH / f"{title}.yml"
 
-    if not config_file.exists():
-        return {}
+        if not config_file.exists():
+            return {}
 
-    with open(config_file, "r") as f:
-        cfg = yaml.load(f, Loader=yaml.SafeLoader)
-
-    return cfg
-
-
-def save_config(title: str, cfg: dict):
-    """
-    @unified
-    Save the configuration dictionary to a file.
-
-    Parameters
-    ----------
-    title : str
-        Title of the GUI.
-    cfg : dict
-        Configuration dictionary.
-    """
-    config_file = CONFIG_PATH / f"{title}_prompt.yml"
-    config_file.parent.mkdir(exist_ok=True)
-
-    base_config = get_config(title)  # loads the config file
-    for key, value in cfg.items():
-        base_config[key] = value
-
-    with open(config_file, "w") as f:
-        yaml.dump(base_config, f)
+        with open(config_file, "r") as f:
+            return yaml.load(f, Loader=yaml.SafeLoader)
