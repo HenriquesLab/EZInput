@@ -119,3 +119,5 @@ doc/_build/*
 
 # Ignore data directory
 data/*
+
+.gptignore
