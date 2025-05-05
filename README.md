@@ -26,8 +26,7 @@ pip install ezinput
 
 ## Usage
 
-EZInput provides a unified interface for creating UIs in either the terminal or Jupyter notebooks. The mode is automatically determined based on the environment or can be explicitly specified using the `mode` argument.
-Thanks to the unified API, you can easily re-use your code for terminal and Jupyter notebook without having to change it.
+EZInput provides a unified interface for creating UIs in either the terminal or Jupyter notebooks. The mode is automatically determined based on the environment.
 
 ### Terminal Mode
 
@@ -36,7 +35,7 @@ To create a GUI in the terminal using `prompt_toolkit`:
 ```python
 from ezinput import EZInput
 
-gui = EZInput(title="My Terminal GUI", mode="prompt")
+gui = EZInput(title="My Terminal GUI")
 
 # Add GUI elements
 gui.add_check("confirm", "Do you want to proceed?", remember_value=True)
@@ -60,7 +59,7 @@ To create a GUI in Jupyter notebooks using `ipywidgets`:
 ```python
 from ezinput import EZInput
 
-gui = EZInput(title="My Jupyter GUI", mode="jupyter")
+gui = EZInput(title="My Jupyter GUI")
 
 # Add GUI elements
 gui.add_text("text", description="Enter some text:", placeholder="Hello, world!", remember_value=True)
@@ -109,7 +108,7 @@ gui.restore_default_settings()
 ```python
 from ezinput import EZInput
 
-gui = EZInput(title="Terminal Example", mode="prompt")
+gui = EZInput(title="Terminal Example")
 gui.add_text("username", "Enter your username:", remember_value=True)
 gui.add_int_range("age", "Enter your age:", 18, 100, remember_value=True)
 gui.save_settings()
@@ -120,7 +119,7 @@ gui.save_settings()
 ```python
 from ezinput import EZInput
 
-gui = EZInput(title="Jupyter Example", mode="jupyter")
+gui = EZInput(title="Jupyter Example")
 gui.add_text("username", description="Enter your username:", remember_value=True)
 gui.add_int_range("age", description="Enter your age:", vmin=18, vmax=100, remember_value=True)
 gui.show()
