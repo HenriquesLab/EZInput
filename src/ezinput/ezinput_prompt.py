@@ -2,7 +2,7 @@ import os
 import yaml
 from prompt_toolkit import prompt
 from prompt_toolkit.completion import WordCompleter, PathCompleter
-from prompt_toolkit.validation import Validator
+from prompt_toolkit.validation import Validator, ValidationError
 from pathlib import Path
 
 from typing import Optional
@@ -246,7 +246,9 @@ class EZInputPrompt:
             *args,
             message=description + f" ({vmin}-{vmax}): ",
             validator=Validator.from_callable(
-                lambda x: vmin <= float(x) <= vmax,
+                lambda x: x.strip() != ""
+                and x.replace(".", "", 1).isdigit()
+                and vmin <= float(x) <= vmax,
                 error_message=f"Please enter a valid number ({vmin}-{vmax}).",
                 move_cursor_to_end=True,
             ),
@@ -305,7 +307,9 @@ class EZInputPrompt:
             *args,
             message=description + f" ({vmin}-{vmax}): ",
             validator=Validator.from_callable(
-                lambda x: vmin <= int(x) <= vmax,
+                lambda x: x.strip() != ""
+                and x.isdigit()
+                and vmin <= int(x) <= vmax,
                 error_message=f"Please enter a valid number ({vmin}-{vmax}).",
                 move_cursor_to_end=True,
             ),
@@ -478,7 +482,9 @@ class EZInputPrompt:
             *args,
             message=description + f" ({vmin}-{vmax}): ",
             validator=Validator.from_callable(
-                lambda x: vmin <= int(x) <= vmax,
+                lambda x: x.strip() != ""
+                and x.isdigit()
+                and vmin <= int(x) <= vmax,
                 error_message=f"Please enter a valid number ({vmin}-{vmax}).",
                 move_cursor_to_end=True,
             ),
@@ -589,7 +595,9 @@ class EZInputPrompt:
             *args,
             message=description + f" ({vmin}-{vmax}): ",
             validator=Validator.from_callable(
-                lambda x: vmin <= float(x) <= vmax,
+                lambda x: x.strip() != ""
+                and x.replace(".", "", 1).isdigit()
+                and vmin <= float(x) <= vmax,
                 error_message=f"Please enter a valid number ({vmin}-{vmax}).",
                 move_cursor_to_end=True,
             ),
