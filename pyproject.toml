@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ezinput"
-version = "0.0.4"
+version = "0.0.5"
 description = "Simplify the creation of GUI elements in terminals and Jupyter Notebooks"
 authors = [
     { name = "Bruno M. Saraiva", email = "bruno.msaraiva2@gmail.com" },
@@ -19,7 +19,7 @@ classifiers = [
 ]
 requires-python = ">= 3.9"
 dependencies = [
-    "ipython>=8.24",
+    "ipython",
     "ipywidgets>=8.1.2",
     "ipyfilechooser>=0.6.0",
     "pyyaml>=6.0.1",
