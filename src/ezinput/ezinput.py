@@ -9,6 +9,13 @@ from typing import Optional
 from .ezinput_prompt import EZInputPrompt
 from .ezinput_jupyter import EZInputJupyter
 
+try:
+    from google.colab import output
+
+    output.enable_custom_widget_manager()
+except ImportError:
+    pass
+
 """
 A module to help simplify the create of GUIs in Jupyter notebooks and CLIs.
 """
