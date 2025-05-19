@@ -219,6 +219,7 @@ class EZInputJupyter:
         placeholder: str = "",
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -254,6 +255,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_int_range(
         self,
         tag: str,
@@ -262,6 +266,7 @@ class EZInputJupyter:
         vmax: int,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -304,6 +309,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_int_slider(
         self,
         tag: str,
@@ -312,6 +320,7 @@ class EZInputJupyter:
         max: int,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -345,6 +354,9 @@ class EZInputJupyter:
             **kwargs,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_float_range(
         self,
         tag: str,
@@ -353,6 +365,7 @@ class EZInputJupyter:
         vmax: float,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -395,6 +408,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_float_slider(
         self,
         tag: str,
@@ -403,6 +419,7 @@ class EZInputJupyter:
         max: int,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -436,8 +453,17 @@ class EZInputJupyter:
             **kwargs,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_check(
-        self, tag: str, description: str, *args, remember_value=False, **kwargs
+        self,
+        tag: str,
+        description: str,
+        *args,
+        remember_value=False,
+        on_change: Optional[callable] = None,
+        **kwargs,
     ):
         """
         @unified
@@ -469,8 +495,17 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_int_text(
-        self, tag, description: str = "", *args, remember_value=False, **kwargs
+        self,
+        tag,
+        description: str = "",
+        *args,
+        remember_value=False,
+        on_change: Optional[callable] = None,
+        **kwargs,
     ):
         """
         @unified
@@ -503,6 +538,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_bounded_int_text(
         self,
         tag,
@@ -511,6 +549,7 @@ class EZInputJupyter:
         vmax: int,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -549,8 +588,17 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_float_text(
-        self, tag, description: str = "", *args, remember_value=False, **kwargs
+        self,
+        tag,
+        description: str = "",
+        *args,
+        remember_value=False,
+        on_change: Optional[callable] = None,
+        **kwargs,
     ):
         """
         @unified
@@ -582,6 +630,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_bounded_float_text(
         self,
         tag,
@@ -590,6 +641,7 @@ class EZInputJupyter:
         vmax: int,
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -629,6 +681,9 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_dropdown(
         self,
         tag,
@@ -636,6 +691,7 @@ class EZInputJupyter:
         description: str = "",
         *args,
         remember_value=False,
+        on_change: Optional[callable] = None,
         **kwargs,
     ):
         """
@@ -671,8 +727,17 @@ class EZInputJupyter:
             style=self._style,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_checkbox(
-        self, tag: str, description: str, *args, remember_value=False, **kwargs
+        self,
+        tag: str,
+        description: str,
+        *args,
+        remember_value=False,
+        on_change: Optional[callable] = None,
+        **kwargs,
     ):
         """
         @jupyter
@@ -699,6 +764,9 @@ class EZInputJupyter:
             **kwargs,
         )
 
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
+
     def add_file_upload(
         self, tag, *args, accept=None, multiple=False, **kwargs
     ):
@@ -722,6 +790,27 @@ class EZInputJupyter:
         self.elements[tag] = FileChooser()
         if accept is not None:
             self.elements[tag].filter_pattern = accept
+
+    def add_output(self, tag: str, *args, **kwargs):
+        """
+        @unified
+        Add an output widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        self.elements[tag] = widgets.Output(
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=self._style,
+        )
 
     def save_parameters(self, path: str):
         """

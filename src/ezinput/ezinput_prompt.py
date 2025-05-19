@@ -707,6 +707,22 @@ class EZInputPrompt:
         self.elements[tag] = Element(self.cfg[tag])
         return self.elements[tag]
 
+    def add_output(self, tag: str, *args, **kwargs):
+        """
+        @unified
+        Does nothing in the terminal-based GUI.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        pass
+
     def clear_elements(self):
         """
         @unified
