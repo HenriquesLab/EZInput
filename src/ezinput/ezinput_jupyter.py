@@ -101,12 +101,13 @@ class EZInputJupyter:
             Additional keyword arguments for the widget.
         """
         self._nLabels += 1
+        style = kwargs.pop("style", self._style)
         self.elements[f"label_{self._nLabels}"] = widgets.Label(
             value=value,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
     def add_text(
@@ -143,13 +144,14 @@ class EZInputJupyter:
         elif remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
 
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Text(
             description=description,
             placeholder=placeholder,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
     def add_callback(
@@ -174,12 +176,13 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the button.
         """
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Button(
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         def wrapped(button):
@@ -204,12 +207,13 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Button(
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
     def add_text_area(
@@ -246,13 +250,14 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
         elif remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Textarea(
             description=description,
             placeholder=placeholder,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -299,6 +304,7 @@ class EZInputJupyter:
             and vmin <= self.cfg[tag] <= vmax
         ):
             kwargs["value"] = int(self.cfg[tag])
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntSlider(
             description=description,
             min=vmin,
@@ -306,7 +312,7 @@ class EZInputJupyter:
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -398,6 +404,7 @@ class EZInputJupyter:
             and vmin <= self.cfg[tag] <= vmax
         ):
             kwargs["value"] = int(self.cfg[tag])
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatSlider(
             description=description,
             min=vmin,
@@ -405,7 +412,7 @@ class EZInputJupyter:
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -487,12 +494,13 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
         elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Checkbox(
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -530,12 +538,13 @@ class EZInputJupyter:
         elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
 
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntText(
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -578,6 +587,7 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
         elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedIntText(
             min=vmin,
             max=vmax,
@@ -585,7 +595,7 @@ class EZInputJupyter:
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -622,12 +632,13 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
         elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatText(
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -670,7 +681,7 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
         elif remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
-
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedFloatText(
             min=vmin,
             max=vmax,
@@ -678,7 +689,7 @@ class EZInputJupyter:
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -718,13 +729,14 @@ class EZInputJupyter:
         if self.params is not None:
             if tag in self.params:
                 kwargs["value"] = self.params[tag]
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Dropdown(
             options=options,
             description=description,
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
         if on_change is not None:
@@ -805,11 +817,12 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
+        style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Output(
             *args,
             **kwargs,
             layout=self._layout,
-            style=self._style,
+            style=style,
         )
 
     def save_parameters(self, path: str):
