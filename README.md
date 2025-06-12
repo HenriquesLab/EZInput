@@ -13,7 +13,7 @@
 [![DOI](https://img.shields.io/badge/Publication-Soon-purple)]()
 
 EZInput is a Python library that simplifies the creation of user interfaces both in the terminal and in Jupyter notebooks. It provides a convenient way to add various types of widgets, making it easier to interact with your code and visualize results.  
-  
+
 DISCLAIMER: the project is currently in alpha stage and will likely suffer changes in the API and functionality.
 
 ## Installation
@@ -42,7 +42,7 @@ gui.add_check("confirm", "Do you want to proceed?", remember_value=True)
 gui.add_text("name", "Enter your name:", placeholder="John Doe", remember_value=True)
 gui.add_int_range("age", "Enter your age:", 18, 100, remember_value=True)
 gui.add_float_range("height", "Enter your height (in meters):", 1.0, 2.5, remember_value=True)
-gui.add_dropdown("color", "Choose your favorite color:", ["Red", "Blue", "Green"], remember_value=True)
+gui.add_dropdown("color", ["Red", "Blue", "Green"], "Choose your favorite color:", remember_value=True)
 gui.add_path_completer("file_path", "Enter a file path:", remember_value=True)
 
 # Save settings
