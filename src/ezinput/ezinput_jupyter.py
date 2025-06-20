@@ -265,6 +265,7 @@ class EZInputJupyter:
     
     def add_HTML(self, tag: str, value: str, *args, **kwargs):
         """
+        @jupyter
         Add an HTML widget to the container.
 
         Parameters
@@ -802,6 +803,31 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+    
+    def add_select_multiple(self, tag: str, options: list, *args, **kwargs):
+        """
+        @jupyter
+        Add a multiple selection widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        options : list
+            List of choices for the selection.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        style = kwargs.pop("style", self._style)
+        self.elements[tag] = widgets.SelectMultiple(
+            options=options,
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=style,
+        )
 
     def add_file_upload(
         self, tag, *args, accept=None, multiple=False, **kwargs
