@@ -262,6 +262,30 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+    
+    def add_HTML(self, tag: str, value: str, *args, **kwargs):
+        """
+        Add an HTML widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        value : str
+            The HTML content to display.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        style = kwargs.pop("style", self._style)
+        self.elements[tag] = widgets.HTML(
+            value=value,
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=style,
+    )
 
     def add_int_range(
         self,
