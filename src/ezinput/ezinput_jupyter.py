@@ -913,7 +913,8 @@ class EZInputJupyter:
             if tag.startswith("label_"):
                 pass
             elif hasattr(self.elements[tag], "value"):
-                self.cfg[tag] = self.elements[tag].value
+                if type(self.elements[tag].value) != tuple:
+                    self.cfg[tag] = self.elements[tag].value
         config_file = CONFIG_PATH / f"{self.title}.yml"
         config_file.parent.mkdir(exist_ok=True)
 
