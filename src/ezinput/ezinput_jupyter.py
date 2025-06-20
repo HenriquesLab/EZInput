@@ -263,7 +263,7 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
     
-    def add_HTML(self, tag: str, value: str, *args, **kwargs):
+    def add_HTML(self, tag: str, value: str, description: str = "", *args, **kwargs):
         """
         @jupyter
         Add an HTML widget to the container.
@@ -282,6 +282,7 @@ class EZInputJupyter:
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.HTML(
             value=value,
+            description=description,
             *args,
             **kwargs,
             layout=self._layout,
@@ -804,7 +805,13 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
     
-    def add_select_multiple(self, tag: str, options: list, *args, **kwargs):
+    def add_select_multiple(
+            self,
+            tag: str,
+            options: list,
+            description: str = "",
+            *args,
+            **kwargs):
         """
         @jupyter
         Add a multiple selection widget to the container.
@@ -823,6 +830,7 @@ class EZInputJupyter:
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.SelectMultiple(
             options=options,
+            description=description,
             *args,
             **kwargs,
             layout=self._layout,
