@@ -262,8 +262,10 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
-    
-    def add_HTML(self, tag: str, value: str, description: str = "", *args, **kwargs):
+
+    def add_HTML(
+        self, tag: str, value: str, description: str = "", *args, **kwargs
+    ):
         """
         @jupyter
         Add an HTML widget to the container.
@@ -287,7 +289,7 @@ class EZInputJupyter:
             **kwargs,
             layout=self._layout,
             style=style,
-    )
+        )
 
     def add_int_range(
         self,
@@ -804,14 +806,10 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
-    
+
     def add_select_multiple(
-            self,
-            tag: str,
-            options: list,
-            description: str = "",
-            *args,
-            **kwargs):
+        self, tag: str, options: list, description: str = "", *args, **kwargs
+    ):
         """
         @jupyter
         Add a multiple selection widget to the container.
@@ -882,6 +880,45 @@ class EZInputJupyter:
             layout=self._layout,
             style=style,
         )
+
+    def add_custom_widget(
+        self,
+        tag: str,
+        custom_widget,
+        *args,
+        remember_value=False,
+        on_change: Optional[callable] = None,
+        **kwargs,
+    ):
+        """
+        @jupyter
+        Add a custom widget to the container.
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        custom_widget : ipywidget to add
+            The custom widget to add.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        if self.params is not None:
+            if tag in self.params:
+                kwargs["value"] = self.params[tag]
+        elif remember_value and tag in self.cfg:
+            kwargs["value"] = self.cfg[tag]
+        style = kwargs.pop("style", self._style)
+        self.elements[tag] = custom_widget(
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=style,
+        )
+
+        if on_change is not None:
+            self.elements[tag].observe(on_change, names="value")
 
     def save_parameters(self, path: str):
         """
