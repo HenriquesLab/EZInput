@@ -89,6 +89,32 @@ EZInput provides a unified API for both terminal and Jupyter notebook modes. The
 - **`add_dropdown(tag, options, description="", remember_value=False)`**: Add a dropdown menu.
 - **`add_callback(tag, func, values, description="Run")`**: Add a function to be ran (if in jupyter, after the press of the generated button) that triggers a callback function.
 
+## Recent Changes
+
+- All widget-adding methods now use the `style` from `kwargs` if provided, otherwise default to `self._style`.
+- `add_custom_widget` now accepts either a widget class (which will be instantiated with `*args` and `**kwargs`) or a widget instance.
+
+## Example: Using Custom Styles
+
+```python
+import ipywidgets as widgets
+from ezinput.ezinput_jupyter import EZInputJupyter
+
+gui = EZInputJupyter()
+gui.add_text('name', description='Name:', style={'description_width': 'initial'})
+```
+
+## Example: Adding a Custom Widget
+
+```python
+# Pass a widget class (with args/kwargs)
+gui.add_custom_widget('slider', widgets.IntSlider, min=0, max=10, value=5)
+
+# Or pass an already-instantiated widget
+dropdown = widgets.Dropdown(options=['A', 'B', 'C'], value='A')
+gui.add_custom_widget('dropdown', dropdown)
+```
+
 ### Saving and Restoring Settings
 
 EZInput allows you to save and restore widget values using configuration files:
