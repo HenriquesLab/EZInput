@@ -262,6 +262,32 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+    
+    def add_HTML(self, tag: str, value: str, description: str = "", *args, **kwargs):
+        """
+        @jupyter
+        Add an HTML widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        value : str
+            The HTML content to display.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        style = kwargs.pop("style", self._style)
+        self.elements[tag] = widgets.HTML(
+            value=value,
+            description=description,
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=style,
+    )
 
     def add_int_range(
         self,
@@ -778,6 +804,38 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+    
+    def add_select_multiple(
+            self,
+            tag: str,
+            options: list,
+            description: str = "",
+            *args,
+            **kwargs):
+        """
+        @jupyter
+        Add a multiple selection widget to the container.
+
+        Parameters
+        ----------
+        tag : str
+            Tag to identify the widget.
+        options : list
+            List of choices for the selection.
+        *args : tuple
+            Additional positional arguments for the widget.
+        **kwargs : dict
+            Additional keyword arguments for the widget.
+        """
+        style = kwargs.pop("style", self._style)
+        self.elements[tag] = widgets.SelectMultiple(
+            options=options,
+            description=description,
+            *args,
+            **kwargs,
+            layout=self._layout,
+            style=style,
+        )
 
     def add_file_upload(
         self, tag, *args, accept=None, multiple=False, **kwargs
@@ -855,7 +913,8 @@ class EZInputJupyter:
             if tag.startswith("label_"):
                 pass
             elif hasattr(self.elements[tag], "value"):
-                self.cfg[tag] = self.elements[tag].value
+                if type(self.elements[tag].value) != tuple:
+                    self.cfg[tag] = self.elements[tag].value
         config_file = CONFIG_PATH / f"{self.title}.yml"
         config_file.parent.mkdir(exist_ok=True)
 
