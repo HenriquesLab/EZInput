@@ -409,7 +409,6 @@ class EZInputPrompt:
         int
             The integer value entered by the user.
         """
-        print("ahhhhhhhhh")
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
@@ -430,7 +429,6 @@ class EZInputPrompt:
         )
         self.cfg[tag] = int(value)
         self.elements[tag] = Element(self.cfg[tag])
-        print("ahhhhhhhhh")
         return self.elements[tag]
 
     def add_bounded_int_text(
