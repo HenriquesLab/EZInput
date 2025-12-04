@@ -67,7 +67,7 @@ class EZInput:
         else:
             return None
 
-    def _get_config(self, title: Optional[str]) -> dict:
+    def _get_config(self, title: Optional[str] = None) -> dict:
         """
         Get the configuration dictionary without needing to initialize the GUI.
 
@@ -81,6 +81,9 @@ class EZInput:
         dict
             The configuration dictionary.
         """
+
+        if title is None:
+            title = self.title
 
         config_file = CONFIG_PATH / f"{title}.yml"
 
@@ -100,7 +103,15 @@ class EZInput:
                 pass
             elif hasattr(self.elements[tag], "value"):
                 self.cfg[tag] = self.elements[tag].value
-        self._save_config(self.title, self.cfg)
+        config_file = CONFIG_PATH / f"{self.title}.yml"
+        config_file.parent.mkdir(exist_ok=True)
+
+        base_config = self._get_config(self.title)  # loads the config file
+        for key, value in self.cfg.items():
+            base_config[key] = value
+
+        with open(config_file, "w") as f:
+            yaml.dump(base_config, f)
 
     def _save_config(self, title: str, cfg: dict):
         """

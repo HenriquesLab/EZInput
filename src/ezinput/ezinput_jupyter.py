@@ -941,6 +941,24 @@ class EZInputJupyter:
         with open(path, "w") as f:
             yaml.dump(out, f)
 
+    def load_parameters(self, path: str):
+        """
+        @unified
+        Load widget values from a file.
+
+        Parameters
+        ----------
+        path : str
+            The path to load the file.
+        """
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"File {path} not found.")
+        with open(path, "r") as f:
+            params = yaml.load(f, Loader=yaml.SafeLoader)
+        for tag in params:
+            if tag in self.elements:
+                self.elements[tag].value = params[tag]
+
     def save_settings(self):
         """
         @unified
@@ -980,7 +998,7 @@ class EZInputJupyter:
         self._nLabels = 0
         self._main_display.children = ()
 
-    def _get_config(self, title: Optional[str]) -> dict:
+    def _get_config(self, title: Optional[str] = None) -> dict:
         """
         Get the configuration dictionary without needing to initialize the GUI.
 
@@ -995,6 +1013,9 @@ class EZInputJupyter:
             The configuration dictionary.
         """
 
+        if title is None:
+            title = self.title
+
         config_file = CONFIG_PATH / f"{title}.yml"
 
         if not config_file.exists():
@@ -1002,3 +1023,21 @@ class EZInputJupyter:
 
         with open(config_file, "r") as f:
             return yaml.load(f, Loader=yaml.SafeLoader)
+
+    def get_values(self) -> dict:
+        """
+        @unified
+        Get the current values of all widgets in the container.
+
+        Returns
+        -------
+        dict
+            A dictionary with widget tags as keys and their current values.
+        """
+        out = {}
+        for tag in self.elements:
+            if tag.startswith("label_"):
+                pass
+            elif hasattr(self.elements[tag], "value"):
+                out[tag] = self.elements[tag].value
+        return out

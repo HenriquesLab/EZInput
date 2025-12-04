@@ -769,6 +769,22 @@ class EZInputPrompt:
         with open(config_file, "w") as f:
             yaml.dump(base_config, f)
 
+    def load_parameters(self, path: str):
+        """
+        @unified
+        Load widget values from a file.
+
+        Parameters
+        ----------
+        path : str
+            The path to load the file from.
+        """
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"The file {path} does not exist.")
+        with open(path, "r") as f:
+            params = yaml.load(f, Loader=yaml.SafeLoader)
+        self.params = params
+
     def show(self):
         """
         @unified
@@ -776,7 +792,7 @@ class EZInputPrompt:
         """
         pass
 
-    def _get_config(self, title: Optional[str]) -> dict:
+    def _get_config(self, title: Optional[str] = None) -> dict:
         """
         Get the configuration dictionary without needing to initialize the GUI.
 
@@ -791,6 +807,9 @@ class EZInputPrompt:
             The configuration dictionary.
         """
 
+        if title is None:
+            title = self.title
+
         config_file = CONFIG_PATH / f"{title}.yml"
 
         if not config_file.exists():
@@ -798,3 +817,21 @@ class EZInputPrompt:
 
         with open(config_file, "r") as f:
             return yaml.load(f, Loader=yaml.SafeLoader)
+
+    def get_values(self) -> dict:
+        """
+        @unified
+        Get the current values of all widgets in the container.
+
+        Returns
+        -------
+        dict
+            A dictionary with widget tags as keys and their current values.
+        """
+        out = {}
+        for tag in self.elements:
+            if tag.startswith("label_"):
+                pass
+            elif hasattr(self.elements[tag], "value"):
+                out[tag] = self.elements[tag].value
+        return out
