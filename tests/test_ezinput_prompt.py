@@ -1,4 +1,5 @@
 from ezinput import EZInput
+import yaml
 
 
 def test_env_detection():
@@ -250,3 +251,72 @@ def test_param_loading_non_existing(mock_input):
         remember_value=True,
     )
     gui.show()
+    def test_get_values(mock_input):
+        gui = EZInput("Test_prompt_get_values")
+        gui.add_label(value="Header")
+        mock_input.send_text("hello\n")
+        gui.add_text("text1", "Enter text:", placeholder="hello", remember_value=True)
+        mock_input.send_text("42\n")
+        gui.add_int_text("int1", "Enter an integer:", remember_value=True)
+        values = gui.get_values()
+        assert values["text1"] == "hello"
+        assert values["int1"] == 42
+        assert "label_1" not in values  # labels should not be included
+
+
+    def test_load_parameters_explicit_file(tmp_path, mock_input):
+        params = {
+            "text1": "preset",
+            "int1": 7,
+            "float1": 3.14,
+            "bounded": 5,
+        }
+        param_file = tmp_path / "explicit_params.yml"
+        param_file.write_text(yaml.dump(params))
+
+        gui = EZInput("Test_prompt_load_params")
+        gui.load_parameters(str(param_file))
+
+        # Accept defaults from params by sending just newline
+        mock_input.send_text("\n")
+        gui.add_text("text1", "Enter text:", remember_value=True)
+        mock_input.send_text("\n")
+        gui.add_int_text("int1", "Enter an integer:", remember_value=True)
+        mock_input.send_text("\n")
+        gui.add_float_text("float1", "Enter a float:", remember_value=True)
+        mock_input.send_text("\n")
+        gui.add_bounded_int_text("bounded", "Enter bounded int:", 0, 10, remember_value=True)
+
+        values = gui.get_values()
+        assert values["text1"] == "preset"
+        assert values["int1"] == 7
+        assert values["float1"] == 3.14
+        assert values["bounded"] == 5
+
+
+    def test_save_and_load_parameters_roundtrip(tmp_path, mock_input):
+        gui = EZInput("Test_prompt_roundtrip")
+        mock_input.send_text("alpha\n")
+        gui.add_text("t", "Enter text:", remember_value=True)
+        mock_input.send_text("9\n")
+        gui.add_int_text("i", "Enter int:", remember_value=True)
+        mock_input.send_text("1.5\n")
+        gui.add_float_text("f", "Enter float:", remember_value=True)
+
+        out_file = tmp_path / "saved_params.yml"
+        gui.save_parameters(str(out_file))
+
+        # New GUI loads from saved file and should use defaults
+        gui2 = EZInput("Test_prompt_roundtrip_2", params_file=str(out_file))
+
+        mock_input.send_text("\n")
+        gui2.add_text("t", "Enter text:", remember_value=True)
+        mock_input.send_text("\n")
+        gui2.add_int_text("i", "Enter int:", remember_value=True)
+        mock_input.send_text("\n")
+        gui2.add_float_text("f", "Enter float:", remember_value=True)
+
+        values2 = gui2.get_values()
+        assert values2["t"] == "alpha"
+        assert values2["i"] == 9
+        assert values2["f"] == 1.5
