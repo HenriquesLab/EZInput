@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ezinput"
-version = "0.0.8"
+version = "0.0.9"
 description = "Simplify the creation of GUI elements in terminals and Jupyter Notebooks"
 authors = [
     { name = "Bruno M. Saraiva", email = "bruno.msaraiva2@gmail.com" },
