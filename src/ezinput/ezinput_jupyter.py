@@ -952,12 +952,10 @@ class EZInputJupyter:
             The path to load the file.
         """
         if not os.path.exists(path):
-            raise FileNotFoundError(f"File {path} not found.")
+            raise FileNotFoundError(f"The file {path} does not exist.")
         with open(path, "r") as f:
             params = yaml.load(f, Loader=yaml.SafeLoader)
-        for tag in params:
-            if tag in self.elements:
-                self.elements[tag].value = params[tag]
+        self.params = params
 
     def save_settings(self):
         """
