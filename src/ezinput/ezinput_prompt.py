@@ -787,7 +787,7 @@ class EZInputPrompt:
         @unified
         Display the GUI. (In terminal triggers automatic parameter saving)
         """
-        # self._save_settings()
+        self._save_settings()
 
     def _get_config(self, title: Optional[str] = None) -> dict:
         """
