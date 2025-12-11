@@ -28,6 +28,9 @@ dependencies = [
 
 ]
 
+[project.scripts]
+ezinput = "ezinput.scripts:run_notebook"
+
 [project.optional-dependencies]
 all = ["ezinput[dev, test]"]
 dev = [
