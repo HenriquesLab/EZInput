@@ -216,17 +216,21 @@ def test_param_loading_non_existing(mock_input):
         remember_value=True,
     )
     gui.show()
-    def test_get_values(mock_input):
-        gui = EZInput("Test_prompt_get_values")
-        gui.add_label(value="Header")
-        mock_input.send_text("hello\n")
-        gui.add_text("text1", "Enter text:", placeholder="hello", remember_value=True)
-        mock_input.send_text("42\n")
-        gui.add_int_text("int1", "Enter an integer:", remember_value=True)
-        values = gui.get_values()
-        assert values["text1"] == "hello"
-        assert values["int1"] == 42
-        assert "label_1" not in values  # labels should not be included
+
+
+def test_get_values(mock_input):
+    gui = EZInput("Test_prompt_get_values")
+    gui.add_label(value="Header")
+    mock_input.send_text("hello\n")
+    gui.add_text(
+        "text1", "Enter text:", remember_value=True
+    )
+    mock_input.send_text("42\n")
+    gui.add_int_text("int1", "Enter an integer:", remember_value=True)
+    values = gui.get_values()
+    assert values["text1"] == "hello"
+    assert values["int1"] == 42
+    assert "label_1" not in values  # labels should not be included
 
 
 def test_load_parameters_explicit_file(tmp_path, mock_input):
@@ -250,7 +254,9 @@ def test_load_parameters_explicit_file(tmp_path, mock_input):
     mock_input.send_text("\n")
     gui.add_float_text("float1", "Enter a float:", remember_value=True)
     mock_input.send_text("\n")
-    gui.add_bounded_int_text("bounded", "Enter bounded int:", 0, 10, remember_value=True)
+    gui.add_bounded_int_text(
+        "bounded", "Enter bounded int:", 0, 10, remember_value=True
+    )
 
     values = gui.get_values()
     assert values["text1"] == "preset"
