@@ -120,7 +120,7 @@ def test_path_completion(mock_input):
 
 
 def test_param_loading(mock_input):
-    gui = EZInput("Test_prompt_13", params_file="test_params.yml")
+    gui = EZInput("Test_prompt_13", params_file="tests/test_params.yml")
     mock_input.send_text("10\n")
     gui.add_int_text(
         "tag",
@@ -153,7 +153,9 @@ def test_param_loading(mock_input):
 
 
 def test_param_loading_auto(mock_input):
-    gui = EZInput("Test_prompt_14", params_file="Test_prompt_9_parameters.yml")
+    gui = EZInput(
+        "Test_prompt_14", params_file="tests/Test_prompt_9_parameters.yml"
+    )
     mock_input.send_text("\n")
     gui.add_int_text(
         "tag",
@@ -222,9 +224,7 @@ def test_get_values(mock_input):
     gui = EZInput("Test_prompt_get_values")
     gui.add_label(value="Header")
     mock_input.send_text("hello\n")
-    gui.add_text(
-        "text1", "Enter text:", remember_value=True
-    )
+    gui.add_text("text1", "Enter text:", remember_value=True)
     mock_input.send_text("42\n")
     gui.add_int_text("int1", "Enter an integer:", remember_value=True)
     values = gui.get_values()
