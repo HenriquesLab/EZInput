@@ -846,7 +846,7 @@ class EZInputJupyter:
         )
 
     def add_file_upload(
-        self, tag, *args, accept=None, **kwargs
+        self, tag, *args, accept=None, remember_value=True, **kwargs
     ):
         """
         @jupyter
@@ -864,6 +864,15 @@ class EZInputJupyter:
             Additional keyword arguments for the widget.
         """
         self.elements[tag] = FileChooser()
+        if tag in self.cfg and remember_value:
+            selected_file = self.cfg[tag]
+            self.elements[tag].default_path = os.path.dirname(selected_file)
+            self.elements[tag].default_filename = os.path.basename(
+                selected_file
+            )
+            self.elements[tag].reset()
+
+        self.elements[tag].register_callback(self._save_settings)
         if accept is not None:
             self.elements[tag].filter_pattern = accept
 
