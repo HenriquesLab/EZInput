@@ -29,7 +29,7 @@ dependencies = [
 ]
 
 [project.scripts]
-ezinput = "ezinput.scripts:run_notebook"
+ezinput = "ezinput.ipynb_runner:run_notebook"
 
 [project.optional-dependencies]
 all = ["ezinput[dev, test]"]
