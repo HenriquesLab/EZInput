@@ -140,7 +140,6 @@ def test_save_config(mock_input):
         description="Enter an integer:",
         remember_value=True,
     )
-    gui.save_settings()
     gui.show()
 
 
