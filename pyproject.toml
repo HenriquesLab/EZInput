@@ -61,7 +61,7 @@ where = ["src"]
 "*" = ["*.yaml"]
 
 [tool.pytest.ini_options]
-addopts = "--nbmake --cov=ezinput --cov-report=term-missing --cov-report=xml"
+addopts = "--nbmake --cov=ezinput --cov-report=term-missing --cov-report=xml --timeout=10"
 markers = [
     "use_real_config: mark test to use real ~/.ezinput/ directory instead of temporary isolated config"
 ]
