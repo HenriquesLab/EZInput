@@ -61,7 +61,7 @@ class EZInputPrompt:
         """
         return self.elements[tag].value
 
-    def add_label(self, value: str = ""):
+    def add_label(self, tag: Optional[str] = None, value: str = ""):
         """
         @unified
         Add a header to the GUI.
@@ -74,10 +74,10 @@ class EZInputPrompt:
             The label text to display.
         """
         self._nLabels += 1
-        self.cfg[f"label_{self._nLabels}"] = value
-        self.elements[f"label_{self._nLabels}"] = Element(
-            self.cfg[f"label_{self._nLabels}"]
-        )
+        if tag is None:
+            tag = f"label_{self._nLabels}"
+        self.cfg[tag] = value
+        self.elements[tag] = Element(self.cfg[tag])
         print("-" * len(value))
         print(value)
         print("-" * len(value))
@@ -88,7 +88,7 @@ class EZInputPrompt:
         description: str,
         placeholder: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> str:
         """
@@ -149,7 +149,7 @@ class EZInputPrompt:
         **kwargs : dict
             Additional keyword arguments for the button.
         """
-        self.save_settings()
+        self._save_settings()
         func(values)
 
     def add_text_area(
@@ -158,7 +158,7 @@ class EZInputPrompt:
         description: str,
         placeholder: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> str:
         """
@@ -204,7 +204,7 @@ class EZInputPrompt:
         vmin: float,
         vmax: float,
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> float:
         """
@@ -265,7 +265,7 @@ class EZInputPrompt:
         vmin: int,
         vmax: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> int:
         """
@@ -324,7 +324,7 @@ class EZInputPrompt:
         tag: str,
         description: str,
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> bool:
         """
@@ -384,7 +384,7 @@ class EZInputPrompt:
         tag: str,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> int:
         """
@@ -438,7 +438,7 @@ class EZInputPrompt:
         vmin: int,
         vmax: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> int:
         """
@@ -497,7 +497,7 @@ class EZInputPrompt:
         tag: str,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> float:
         """
@@ -551,7 +551,7 @@ class EZInputPrompt:
         vmin: float,
         vmax: float,
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> float:
         """
@@ -611,7 +611,7 @@ class EZInputPrompt:
         options: list,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ) -> str:
         """
@@ -660,7 +660,7 @@ class EZInputPrompt:
         return self.elements[tag]
 
     def add_path_completer(
-        self, tag: str, description: str, *args, remember_value=False, **kwargs
+        self, tag: str, description: str, *args, remember_value=True, **kwargs
     ) -> Path:
         """
         @prompt
@@ -702,7 +702,7 @@ class EZInputPrompt:
             **kwargs,
         )
         self.cfg[tag] = Path(value)
-        self.elements[tag] = Element(self.cfg[tag])
+        self.elements[tag] = Element(value)
         return self.elements[tag]
 
     def add_output(self, tag: str, *args, **kwargs):
@@ -742,22 +742,19 @@ class EZInputPrompt:
             path += f"{self.title}_parameters.yml"
         out = {}
         for tag in self.elements:
-            if tag.startswith("label_"):
-                pass
-            elif hasattr(self.elements[tag], "value"):
+            if hasattr(self.elements[tag], "value"):
                 out[tag] = self.elements[tag].value
         with open(path, "w") as f:
             yaml.dump(out, f)
 
-    def save_settings(self):
+    def _save_settings(self):
         """
         @unified
+        Automatically triggered method, not to be called directly.
         Save the widget values to the configuration file.
         """
         for tag in self.elements:
-            if tag.startswith("label_"):
-                pass
-            elif hasattr(self.elements[tag], "value"):
+            if hasattr(self.elements[tag], "value"):
                 self.cfg[tag] = self.elements[tag].value
         config_file = CONFIG_PATH / f"{self.title}.yml"
         config_file.parent.mkdir(exist_ok=True)
@@ -788,9 +785,9 @@ class EZInputPrompt:
     def show(self):
         """
         @unified
-        Display the GUI. (No-op for terminal-based GUIs.)
+        Display the GUI. (In terminal triggers automatic parameter saving)
         """
-        pass
+        self._save_settings()
 
     def _get_config(self, title: Optional[str] = None) -> dict:
         """

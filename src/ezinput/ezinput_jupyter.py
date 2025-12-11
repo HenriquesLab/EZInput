@@ -86,7 +86,7 @@ class EZInputJupyter:
         """
         return len(self.elements)
 
-    def add_label(self, value="", *args, **kwargs):
+    def add_label(self, tag: Optional[str] = None, value="", *args, **kwargs):
         """
         @unified
         Add a label widget to the container.
@@ -101,8 +101,10 @@ class EZInputJupyter:
             Additional keyword arguments for the widget.
         """
         self._nLabels += 1
+        if tag is None:
+            tag = f"label_{self._nLabels}"
         style = kwargs.pop("style", self._style)
-        self.elements[f"label_{self._nLabels}"] = widgets.Label(
+        self.elements[tag] = widgets.Label(
             value=value,
             *args,
             **kwargs,
@@ -116,7 +118,7 @@ class EZInputJupyter:
         description: str = "",
         placeholder: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         **kwargs,
     ):
         """
@@ -148,6 +150,7 @@ class EZInputJupyter:
         self.elements[tag] = widgets.Text(
             description=description,
             placeholder=placeholder,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -186,7 +189,7 @@ class EZInputJupyter:
         )
 
         def wrapped(button):
-            self.save_settings()
+            self._save_settings()
             func(values)
 
         self.elements[tag].on_click(wrapped)
@@ -222,7 +225,7 @@ class EZInputJupyter:
         description: str = "",
         placeholder: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -254,6 +257,7 @@ class EZInputJupyter:
         self.elements[tag] = widgets.Textarea(
             description=description,
             placeholder=placeholder,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -298,7 +302,7 @@ class EZInputJupyter:
         vmin: int,
         vmax: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -337,6 +341,7 @@ class EZInputJupyter:
             description=description,
             min=vmin,
             max=vmax,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -353,7 +358,7 @@ class EZInputJupyter:
         min: int,
         max: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -398,7 +403,7 @@ class EZInputJupyter:
         vmin: float,
         vmax: float,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -437,6 +442,7 @@ class EZInputJupyter:
             description=description,
             min=vmin,
             max=vmax,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -453,7 +459,7 @@ class EZInputJupyter:
         min: int,
         max: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -496,7 +502,7 @@ class EZInputJupyter:
         tag: str,
         description: str,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -539,7 +545,7 @@ class EZInputJupyter:
         tag,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -569,6 +575,7 @@ class EZInputJupyter:
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntText(
             description=description,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -585,7 +592,7 @@ class EZInputJupyter:
         vmin: int,
         vmax: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -620,6 +627,7 @@ class EZInputJupyter:
             min=vmin,
             max=vmax,
             description=description,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -634,7 +642,7 @@ class EZInputJupyter:
         tag,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -663,6 +671,7 @@ class EZInputJupyter:
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatText(
             description=description,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -679,7 +688,7 @@ class EZInputJupyter:
         vmin: int,
         vmax: int,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -714,6 +723,7 @@ class EZInputJupyter:
             min=vmin,
             max=vmax,
             description=description,
+            continuous_update=True,
             *args,
             **kwargs,
             layout=self._layout,
@@ -729,7 +739,7 @@ class EZInputJupyter:
         options: list,
         description: str = "",
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -775,7 +785,7 @@ class EZInputJupyter:
         tag: str,
         description: str,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -836,7 +846,7 @@ class EZInputJupyter:
         )
 
     def add_file_upload(
-        self, tag, *args, accept=None, multiple=False, **kwargs
+        self, tag, *args, accept=None, **kwargs
     ):
         """
         @jupyter
@@ -848,8 +858,6 @@ class EZInputJupyter:
             Tag to identify the widget.
         accept : str, optional
             The file types to accept. Defaults to None.
-        multiple : bool, optional
-            Allow multiple files to be uploaded. Defaults to False.
         *args : tuple
             Additional positional arguments for the widget.
         **kwargs : dict
@@ -886,7 +894,7 @@ class EZInputJupyter:
         tag: str,
         custom_widget,
         *args,
-        remember_value=False,
+        remember_value=True,
         on_change: Optional[callable] = None,
         **kwargs,
     ):
@@ -934,9 +942,7 @@ class EZInputJupyter:
             path += f"{self.title}_parameters.yml"
         out = {}
         for tag in self.elements:
-            if tag.startswith("label_"):
-                pass
-            elif hasattr(self.elements[tag], "value"):
+            if hasattr(self.elements[tag], "value"):
                 out[tag] = self.elements[tag].value
         with open(path, "w") as f:
             yaml.dump(out, f)
@@ -957,15 +963,14 @@ class EZInputJupyter:
             params = yaml.load(f, Loader=yaml.SafeLoader)
         self.params = params
 
-    def save_settings(self):
+    def _save_settings(self):
         """
         @unified
+        Automatically triggered method, not to be called directly.
         Save the widget values to the configuration file.
         """
         for tag in self.elements:
-            if tag.startswith("label_"):
-                pass
-            elif hasattr(self.elements[tag], "value"):
+            if hasattr(self.elements[tag], "value"):
                 if type(self.elements[tag].value) != tuple:
                     self.cfg[tag] = self.elements[tag].value
         config_file = CONFIG_PATH / f"{self.title}.yml"
@@ -978,11 +983,20 @@ class EZInputJupyter:
         with open(config_file, "w") as f:
             yaml.dump(base_config, f)
 
+    def _on_value_change(self, change):
+        """
+        @jupyter
+        Automatic trigger of self._save_settings when a widget value changes.
+        """
+        self._save_settings()
+
     def show(self):
         """
         @unified
         Display the widgets in the container.
         """
+        for tag in self.elements:
+            self.elements[tag].observe(self._on_value_change, names="value")
         self._main_display.children = tuple(self.elements.values())
         clear_output()
         display(self._main_display)
