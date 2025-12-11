@@ -194,30 +194,6 @@ class EZInputJupyter:
 
         self.elements[tag].on_click(wrapped)
 
-    def add_button(self, tag, description="Run", *args, **kwargs):
-        """
-        @jupyter
-        Add a button widget to the container.
-
-        Parameters
-        ----------
-        tag : str
-            Tag to identify the widget.
-        description : str, optional
-            The label for the button. Defaults to "Run".
-        *args : tuple
-            Additional positional arguments for the widget.
-        **kwargs : dict
-            Additional keyword arguments for the widget.
-        """
-        style = kwargs.pop("style", self._style)
-        self.elements[tag] = widgets.Button(
-            description=description,
-            *args,
-            **kwargs,
-            layout=self._layout,
-            style=style,
-        )
 
     def add_text_area(
         self,
