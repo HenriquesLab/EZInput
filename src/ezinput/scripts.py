@@ -74,10 +74,8 @@ def run_notebook():
                         },
                     )
 
-        # Delete the notebook file after successful execution
-        notebook_path.unlink()
         print("=" * 60)
-        print(f"Notebook executed successfully and deleted: {notebook_path}")
+        print(f"Notebook executed successfully: {notebook_path}")
 
     except json.JSONDecodeError as e:
         print(f"Error: Invalid JSON in notebook file: {e}")
