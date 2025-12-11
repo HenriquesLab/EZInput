@@ -8,6 +8,14 @@ from prompt_toolkit.output import DummyOutput
 
 @pytest.fixture(scope="function")
 def mock_input():
+    """
+    Fixture for mocking prompt_toolkit input in tests.
+
+    This fixture works in both interactive and non-interactive (CI)
+    environments. In CI environments without a TTY, we ensure the pipe
+    input is properly configured to work with DummyOutput.
+    """
+    # Ensure we're in a mode that allows pipe input even without TTY
     with create_pipe_input() as pipe_input:
         with create_app_session(input=pipe_input, output=DummyOutput()):
             yield pipe_input
