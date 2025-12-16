@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorials - EZInput</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo_white_bg.png" alt="EZInput Logo" class="logo">
+                <span>EZInput</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 4rem 2rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Tutorials</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3rem;">
+            Step-by-step guides to common EZInput patterns and workflows
+        </p>
+
+        <!-- Tutorial 1: Your First GUI -->
+        <section style="margin-bottom: 5rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Tutorial 1: Your First EZInput GUI
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Build a simple parameter collection GUI that works in both Jupyter and terminal.
+            </p>
+
+            <h3>Step 1: Import and Initialize</h3>
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+# Create GUI with a unique, descriptive title
+gui = EZInput("my_first_app_v1")</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Step 2: Add Input Widgets</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># Text input
+name = gui.add_text("user_name", "What's your name?")
+
+# Number with range
+age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
+
+# Boolean choice
+student = gui.add_check("is_student", "Are you a student?", default=False)</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Step 3: Display the GUI</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># Show the GUI and collect input
+gui.show()</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Step 4: Use the Values</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># Access widget values
+print(f"Hello {name.value}!")
+print(f"You are {age.value} years old")
+
+if student.value:
+    print("Student discount applied! 🎓")
+else:
+    print("Regular pricing applies")</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>🎉 Complete Code</h3>
+                <div class="code-block">
+                    <pre><code class="language-python">from ezinput import EZInput
+
+# Create and populate GUI
+gui = EZInput("my_first_app_v1")
+name = gui.add_text("user_name", "What's your name?")
+age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
+student = gui.add_check("is_student", "Are you a student?", default=False)
+
+# Display
+gui.show()
+
+# Use values
+print(f"Hello {name.value}!")
+print(f"You are {age.value} years old")
+if student.value:
+    print("Student discount applied! 🎓")</code></pre>
+                </div>
+                <p><strong>Try it!</strong> This code works identically in Jupyter notebooks and Python scripts.</p>
+            </div>
+        </section>
+
+        <!-- Tutorial 2: Image Analysis Pipeline -->
+        <section style="margin-bottom: 5rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Tutorial 2: Image Analysis Pipeline
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Build a complete image processing GUI with file selection, parameters, and callbacks.
+            </p>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+import numpy as np
+from pathlib import Path
+
+def analyze_image(values):
+    """Process image with parameters from GUI."""
+    # Extract values
+    input_path = values["input_file"].value
+    threshold = values["threshold"].value
+    method = values["method"].value
+    save_result = values["save_output"].value
+    
+    print(f"Processing: {input_path}")
+    print(f"Method: {method}, Threshold: {threshold}")
+    
+    # Your image processing code here
+    # image = load_image(input_path)
+    # result = process(image, method, threshold)
+    
+    if save_result:
+        output_path = Path(input_path).stem + "_processed.tif"
+        print(f"Saved to: {output_path}")
+    
+    print("✓ Analysis complete!")
+    return True
+
+# Create GUI
+gui = EZInput("image_analysis_v3")
+
+# Section 1: Input/Output
+gui.add_label(value="=== File Selection ===")
+input_file = gui.add_text("input_file", "Input file path:", placeholder="/path/to/image.tif")
+
+# Section 2: Processing Parameters  
+gui.add_label(value="=== Processing Parameters ===")
+method = gui.add_dropdown("method", 
+                          ["watershed", "otsu", "adaptive", "manual"],
+                          "Segmentation method:",
+                          default="watershed")
+threshold = gui.add_float_range("threshold", "Threshold:", 0.0, 1.0, default=0.5)
+min_size = gui.add_bounded_int_text("min_size", "Min object size (px):", 10, 10000, default=100)
+
+# Section 3: Options
+gui.add_label(value="=== Options ===")
+use_gpu = gui.add_check("use_gpu", "Use GPU acceleration?", default=False)
+save_output = gui.add_check("save_output", "Save processed image?", default=True)
+
+# Add processing callback
+gui.add_callback("process", analyze_image, gui.get_values(),
+                 description="▶ Start Analysis")
+
+# Display GUI
+gui.show()</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>💡 Key Patterns</h3>
+                <ul>
+                    <li><strong>Labels as sections:</strong> Use <code>add_label()</code> to organize parameters into logical groups</li>
+                    <li><strong>Remember stable params:</strong> Use <code>remember_value=True</code> parameter for method/threshold but not file paths</li>
+                    <li><strong>Callbacks for actions:</strong> Create a button (Jupyter) or immediate execution (terminal)</li>
+                    <li><strong>Descriptive titles:</strong> Version your GUI title for different analysis workflows</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tutorial 3: Multiple Analysis Steps -->
+        <section style="margin-bottom: 5rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Tutorial 3: Multi-Step Analysis Workflow
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Create separate GUIs for different analysis stages with configuration sharing.
+            </p>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+# ============================================
+# Step 1: Preprocessing
+# ============================================
+preprocess_gui = EZInput("preprocessing_v1")
+
+preprocess_gui.add_label(value="=== Preprocessing Parameters ===")
+denoise = preprocess_gui.add_check("denoise", "Apply denoising?", default=True)
+denoise_sigma = preprocess_gui.add_float_range("sigma", "Denoise sigma:", 0.1, 5.0, default=1.0)
+normalize = preprocess_gui.add_check("normalize", "Normalize intensity?", default=True)
+
+preprocess_gui.show()
+
+# Save preprocessing config for reproducibility
+preprocess_gui.save_parameters("preprocess_config.yml")
+
+print("Preprocessing complete!")
+print(f"Denoise: {denoise.value}, Sigma: {denoise_sigma.value}")
+
+# ============================================
+# Step 2: Segmentation
+# ============================================
+segment_gui = EZInput("segmentation_v1")
+
+segment_gui.add_label(value="=== Segmentation Parameters ===")
+method = segment_gui.add_dropdown("method", 
+                                  ["watershed", "otsu"], 
+                                  "Method:")
+threshold = segment_gui.add_float_range("thresh", "Threshold:", 0, 1, default=0.5)
+min_size = segment_gui.add_int_range("min_size", "Min size:", 10, 1000, default=50)
+
+# Remember these for next time
+segment_gui.remember_value("method")
+segment_gui.remember_value("thresh")
+
+segment_gui.show()
+
+# Save segmentation config
+segment_gui.save_parameters("segment_config.yml")
+
+print("Segmentation complete!")
+print(f"Method: {method.value}, Threshold: {threshold.value}")
+
+# ============================================
+# Step 3: Analysis
+# ============================================
+analysis_gui = EZInput("analysis_v1")
+
+analysis_gui.add_label(value="=== Analysis Options ===")
+measure_intensity = analysis_gui.add_check("intensity", "Measure intensity?", default=True)
+measure_shape = analysis_gui.add_check("shape", "Measure shape?", default=True)
+export_csv = analysis_gui.add_check("export", "Export to CSV?", default=True)
+
+analysis_gui.show()
+
+print("Analysis complete!")
+print(f"Measurements: intensity={measure_intensity.value}, shape={measure_shape.value}")</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>🔑 Multi-Step Best Practices</h3>
+                <ul>
+                    <li><strong>Separate GUIs:</strong> One per analysis step with unique titles</li>
+                    <li><strong>Save configs:</strong> <code>save_parameters()</code> after each step for reproducibility</li>
+                    <li><strong>Version control:</strong> Commit config files to track parameter evolution</li>
+                    <li><strong>Clear naming:</strong> Use descriptive titles like <code>preprocessing_v1</code>, <code>segmentation_v2</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tutorial 4: Running Notebooks from Terminal -->
+        <section style="margin-bottom: 5rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Tutorial 4: Running Jupyter Notebooks from Terminal
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Execute your Jupyter notebooks as command-line tools using the <code>ezinput</code> command.
+            </p>
+
+            <h3>Step 1: Create a Notebook with EZInput</h3>
+            <p>In your Jupyter notebook (<code>analysis.ipynb</code>):</p>
+            <div class="code-block">
+                <pre><code class="language-python"># Cell 1: Import and setup
+from ezinput import EZInput
+
+gui = EZInput("notebook_analysis_v1")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+method = gui.add_dropdown("method", ["A", "B", "C"], "Method:")
+gui.show()
+
+# Cell 2: Analysis code
+print(f"Running analysis with threshold={threshold.value}, method={method.value}")
+# Your analysis code here...</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Step 2: Run from Terminal</h3>
+            <div class="code-block">
+                <pre><code class="language-bash"># Run the notebook from command line
+ezinput analysis.ipynb
+
+# EZInput will prompt for parameters in the terminal!
+# Threshold: [user enters value]
+# Method: [user selects from list]
+# Then executes all cells with those values</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2rem;">Step 3: Use Saved Configs</h3>
+            <p>Load a pre-configured parameter set:</p>
+            <div class="code-block">
+                <pre><code class="language-python"># In notebook: load config before showing GUI
+gui = EZInput("notebook_analysis_v1")
+gui.load_parameters("optimal_params.yml")  # Load saved params
+
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+method = gui.add_dropdown("method", ["A", "B", "C"], "Method:")
+gui.show()  # Now shows values from optimal_params.yml!</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code class="language-bash"># Run from terminal - uses config values automatically
+ezinput analysis.ipynb
+
+# Values from optimal_params.yml are used as defaults
+# Just press Enter to accept, or change as needed</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>🚀 Use Cases</h3>
+                <ul>
+                    <li><strong>Batch processing:</strong> Run same analysis on multiple datasets</li>
+                    <li><strong>Automation:</strong> Integrate notebooks into shell scripts or pipelines</li>
+                    <li><strong>Server execution:</strong> Run notebooks on remote servers without Jupyter</li>
+                    <li><strong>Reproducibility:</strong> Document exact parameters used for each run</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tutorial 5: Advanced Callbacks -->
+        <section style="margin-bottom: 5rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Tutorial 5: Advanced Callbacks and Output
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Use callbacks for interactive processing and output areas for results display.
+            </p>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+import time
+
+def validate_params(values):
+    """Validate that parameters make sense."""
+    min_val = values["min_threshold"].value
+    max_val = values["max_threshold"].value
+    
+    if min_val >= max_val:
+        print("❌ Error: Min threshold must be less than max!")
+        return False
+    
+    print("✓ Parameters valid")
+    return True
+
+def run_analysis(values):
+    """Run the analysis with progress updates."""
+    print("Starting analysis...")
+    
+    # Extract parameters
+    min_thresh = values["min_threshold"].value
+    max_thresh = values["max_threshold"].value
+    iterations = values["iterations"].value
+    
+    print(f"Threshold range: {min_thresh} - {max_thresh}")
+    print(f"Iterations: {iterations}")
+    
+    # Simulate processing with progress
+    for i in range(iterations):
+        time.sleep(0.1)  # Simulate work
+        if i % 10 == 0:
+            print(f"Progress: {i}/{iterations}")
+    
+    print("✓ Analysis complete!")
+    print(f"Processed {iterations} iterations")
+    return True
+
+# Create GUI
+gui = EZInput("advanced_callbacks")
+
+# Parameters
+gui.add_label(value="=== Threshold Range ===")
+min_threshold = gui.add_float_range("min_threshold", "Min:", 0.0, 1.0, default=0.3)
+max_threshold = gui.add_float_range("max_threshold", "Max:", 0.0, 1.0, default=0.7)
+
+gui.add_label(value="=== Processing ===")
+iterations = gui.add_int_range("iterations", "Iterations:", 10, 100, default=50)
+
+# Output area (Jupyter only - ignored in terminal)
+gui.add_output("results")
+
+# Multiple callbacks for different actions
+gui.add_callback("validate", validate_params, gui.get_values(),
+                 description="Validate Parameters")
+                 
+gui.add_callback("run", run_analysis, gui.get_values(),
+                 description="▶ Run Analysis")
+
+# Show GUI
+gui.show()
+
+# In Jupyter, output appears in the "results" output widget
+# In terminal, output goes to stdout</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>💡 Callback Tips</h3>
+                <ul>
+                    <li><strong>Multiple callbacks:</strong> Create separate buttons for validate, preview, and run actions</li>
+                    <li><strong>Output areas:</strong> Use <code>add_output()</code> in Jupyter to contain callback output</li>
+                    <li><strong>Progress updates:</strong> Print status messages during long-running callbacks</li>
+                    <li><strong>Return values:</strong> Return True/False to indicate success/failure</li>
+                    <li><strong>Error handling:</strong> Wrap callback code in try/except to show friendly errors</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Additional Resources
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>📖 Widget Reference</h3>
+                    <p>Complete documentation of all available widgets</p>
+                    <a href="widgets.html" style="color: var(--primary-color); font-weight: 600;">View Widget Docs →</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>⚙️ Configuration Guide</h3>
+                    <p>Learn about persistence, configs, and value priority</p>
+                    <a href="configuration.html" style="color: var(--primary-color); font-weight: 600;">Read Config Guide →</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>📔 Example Notebooks</h3>
+                    <p>Download working notebook examples</p>
+                    <a href="https://github.com/HenriquesLab/EZInput/tree/main/examples" style="color: var(--primary-color); font-weight: 600;" target="_blank">Browse Examples →</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Developed at the <a href="https://henriqueslab.github.io/" target="_blank">Henriques Laboratory</a>, UCL</p>
+            <p>Licensed under MIT | <a href="https://github.com/HenriquesLab/EZInput">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

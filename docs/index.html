@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZInput - Unified GUI for Jupyter & Terminal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo_white_bg.png" alt="EZInput Logo" class="logo">
+                <span>EZInput</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#quickstart">Quick Start</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container">
+            <img src="logo_dark_bg.png" alt="EZInput" class="hero-logo">
+            <h1>EZInput</h1>
+            <p class="tagline">Write once, run anywhere. The same GUI code for Jupyter notebooks and terminal applications.</p>
+            <div class="hero-buttons">
+                <a href="#quickstart" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/HenriquesLab/EZInput" class="btn btn-secondary">View on GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Why EZInput?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3>Environment Auto-Detection</h3>
+                    <p>Automatically detects whether you're in Jupyter or terminal and displays the appropriate interface. No code changes needed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Value Persistence</h3>
+                    <p>Remembers your input values between sessions. Perfect for iterative workflows and parameter tuning.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Shareable Configs</h3>
+                    <p>Save and load parameter sets as YAML files. Share configurations with your team or across projects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖥️</div>
+                    <h3>Notebook to CLI</h3>
+                    <p>Run Jupyter notebooks from the terminal with the <code>ezinput</code> command. Perfect for batch processing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Rich Widget Library</h3>
+                    <p>Text input, sliders, dropdowns, file pickers, checkboxes, and more. All with consistent API across environments.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3>Simple Integration</h3>
+                    <p>Replace input() calls with EZInput widgets. Minimal code changes for maximum functionality gain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quickstart" class="quickstart">
+        <div class="container">
+            <h2>Quick Start</h2>
+            
+            <div class="install-section">
+                <h3>Installation</h3>
+                <div class="code-block">
+                    <pre><code>pip install ezinput</code></pre>
+                </div>
+                <p>For development version:</p>
+                <div class="code-block">
+                    <pre><code>pip install git+https://github.com/HenriquesLab/EZInput.git</code></pre>
+                </div>
+            </div>
+
+            <div class="example-section">
+                <h3>Your First GUI in 5 Lines</h3>
+                <div class="code-block">
+                    <pre><code class="language-python">from ezinput import EZInput
+
+gui = EZInput("my_first_app")
+name = gui.add_text("name", "What's your name?")
+age = gui.add_int_range("age", "Age:", 0, 120)
+gui.show()
+
+print(f"Hello {name.value}, you are {age.value} years old!")</code></pre>
+                </div>
+                <p class="code-note">This exact code works in both Jupyter notebooks and terminal! 🎉</p>
+            </div>
+
+            <div class="example-section">
+                <h3>Real-World Example: Image Analysis</h3>
+                <div class="code-block">
+                    <pre><code class="language-python">from ezinput import EZInput
+from pathlib import Path
+
+# Create GUI with a memorable title (configs saved under this name)
+gui = EZInput("image_segmentation_v3")
+
+# File selection (text input with path)
+input_file = gui.add_text("input_tif", "Input file path:", placeholder="/path/to/image.tif")
+
+# Processing parameters with bounds
+threshold = gui.add_float_range("threshold", "Threshold:", 0.0, 1.0)
+min_size = gui.add_bounded_int_text("min_size", "Min object size:", 10, 1000)
+
+# Optional settings
+gpu_accel = gui.add_check("use_gpu", "Use GPU acceleration?")
+method = gui.add_dropdown("method", ["watershed", "otsu", "adaptive"], 
+                          "Segmentation method:")
+
+# Display the GUI
+gui.show()
+
+# Access values
+print(f"Processing {input_file.value}")
+print(f"Threshold: {threshold.value}, Method: {method.value}")</code></pre>
+                </div>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>🔥 Copy-Paste Anywhere</h3>
+                <p>The same code works identically in:</p>
+                <ul>
+                    <li>Jupyter Notebook (.ipynb)</li>
+                    <li>JupyterLab</li>
+                    <li>Terminal Python scripts (.py)</li>
+                    <li>IPython shell</li>
+                </ul>
+                <p>No modifications needed! EZInput automatically detects the environment and adapts.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="widgets-preview" class="widgets-preview">
+        <div class="container">
+            <h2>Widget Gallery</h2>
+            <p class="section-subtitle">All the widgets you need, with consistent API across environments</p>
+            
+            <div class="widget-categories">
+                <div class="widget-category">
+                    <h3>📝 Text & Numbers</h3>
+                    <ul>
+                        <li><code>add_text()</code> - Single line text</li>
+                        <li><code>add_text_area()</code> - Multi-line text</li>
+                        <li><code>add_int_range()</code> - Integer slider</li>
+                        <li><code>add_float_range()</code> - Float slider</li>
+                        <li><code>add_bounded_int_text()</code> - Validated integers</li>
+                        <li><code>add_bounded_float_text()</code> - Validated floats</li>
+                    </ul>
+                </div>
+                
+                <div class="widget-category">
+                    <h3>✅ Selection</h3>
+                    <ul>
+                        <li><code>add_check()</code> - Checkbox/Yes-No</li>
+                        <li><code>add_dropdown()</code> - Selection from list</li>
+                    </ul>
+                </div>
+                
+                <div class="widget-category">
+                    <h3>🎨 Display</h3>
+                    <ul>
+                        <li><code>add_label()</code> - Static text/headers</li>
+                        <li><code>add_output()</code> - Output display area</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <a href="widgets.html" class="btn btn-primary">Explore All Widgets →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="persistence" class="persistence-section">
+        <div class="container">
+            <h2>Value Persistence & Configuration</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <h3>Automatic Memory</h3>
+                    <div class="code-block">
+                        <pre><code class="language-python"># First run
+gui = EZInput("analysis")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+gui.show()
+# User enters 0.75
+
+# Second run (tomorrow)
+gui = EZInput("analysis")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+gui.show()
+# Default is now 0.75! ✨</code></pre>
+                    </div>
+                </div>
+                
+                <div class="column">
+                    <h3>Save & Load Configs</h3>
+                    <div class="code-block">
+                        <pre><code class="language-python"># Save current parameters
+gui.save_parameters("optimal_params.yml")
+
+# Load saved parameters
+gui.load_parameters("optimal_params.yml")
+
+# Share with team!
+# Config saved to: ~/.ezinput/optimal_params.yml</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="priority-info">
+                <h3>⚙️ Value Priority Order</h3>
+                <ol>
+                    <li><strong>Loaded parameters</strong> (from .yml file via <code>load_parameters()</code>)</li>
+                    <li><strong>Remembered values</strong> (from previous sessions using <code>remember_value=True</code> parameter)</li>
+                    <li><strong>Explicit defaults</strong> (passed to widget methods)</li>
+                    <li><strong>Widget defaults</strong> (built-in fallbacks)</li>
+                </ol>
+            </div>
+            
+            <div class="cta-section">
+                <a href="configuration.html" class="btn btn-secondary">Learn More About Configuration →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="cli" class="cli-section">
+        <div class="container">
+            <h2>Run Notebooks from Terminal</h2>
+            <p class="section-subtitle">Execute your Jupyter notebooks as command-line tools with <code>ezinput</code></p>
+            
+            <div class="code-block">
+                <pre><code class="language-bash"># Run a notebook from terminal
+ezinput my_analysis.ipynb
+
+# Works with EZInput GUIs inside the notebook!
+# Prompts appear in terminal, configs are loaded automatically</code></pre>
+            </div>
+            
+            <p class="feature-note">Perfect for batch processing, automation, and integrating notebooks into pipelines.</p>
+        </div>
+    </section>
+
+    <section id="getting-help" class="help-section">
+        <div class="container">
+            <h2>Resources & Support</h2>
+            
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <h3>📚 Tutorials</h3>
+                    <p>Step-by-step guides for common tasks</p>
+                    <a href="tutorials.html">View Tutorials →</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>🔧 API Reference</h3>
+                    <p>Complete method documentation</p>
+                    <a href="api.html">Read API Docs →</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>💬 GitHub Issues</h3>
+                    <p>Report bugs or request features</p>
+                    <a href="https://github.com/HenriquesLab/EZInput/issues" target="_blank">Open an Issue →</a>
+                </div>
+                
+                <div class="resource-card">
+                    <h3>✉️ Contact</h3>
+                    <p>Email the development team</p>
+                    <a href="mailto:ricardo@henriqueslab.org">Get in Touch →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Developed at the <a href="https://henriqueslab.github.io/" target="_blank">Henriques Laboratory</a>, UCL</p>
+            <p>Licensed under MIT | <a href="https://github.com/HenriquesLab/EZInput">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

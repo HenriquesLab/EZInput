@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Widget Reference - EZInput</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .widget-section {
+            margin-bottom: 4rem;
+        }
+        
+        .widget-header {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .availability-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+        
+        .badge-jupyter {
+            background: #e0f2fe;
+            color: #0c4a6e;
+        }
+        
+        .badge-terminal {
+            background: #f0fdf4;
+            color: #14532d;
+        }
+        
+        .badge-both {
+            background: #fef3c7;
+            color: #78350f;
+        }
+        
+        .param-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .param-table th {
+            background: var(--gray-100);
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--gray-300);
+        }
+        
+        .param-table .optional-section {
+            background: var(--gray-50);
+            font-weight: 600;
+            font-style: italic;
+            color: var(--gray-600);
+        }
+        
+        .param-table .optional-row {
+            background: #fafafa;
+        }
+        
+        .param-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .param-table code {
+            background: var(--gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .example-card {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+        }
+        
+        .example-card h4 {
+            margin-bottom: 1rem;
+            color: var(--gray-900);
+        }
+        
+        @media (max-width: 768px) {
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo_white_bg.png" alt="EZInput Logo" class="logo">
+                <span>EZInput</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 4rem 2rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Widget Reference</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3rem;">
+            Complete guide to all EZInput widgets with examples for Jupyter and terminal environments.
+        </p>
+
+        <!-- Text Input Widgets -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>Text Input Widgets</h2>
+            </div>
+
+            <!-- add_text -->
+            <h3><code>add_text()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Single-line text input widget.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier for this widget</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label/prompt text shown to user</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>placeholder</code></td>
+                        <td>str</td>
+                        <td>Placeholder text shown when empty (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Text</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Text</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal). Common: <code>value</code> for initial value</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+gui = EZInput("text_example")
+
+# Basic text input
+name = gui.add_text("user_name", "Enter your name:")
+
+# With placeholder
+email = gui.add_text("email", "Email address:", 
+                     placeholder="user@example.com")
+
+# With default value
+project = gui.add_text("project_name", "Project:", 
+                       default="MyProject")
+
+gui.show()
+
+print(f"Name: {name.value}")
+print(f"Email: {email.value}")</code></pre>
+            </div>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>💻 In Jupyter Notebook</h4>
+                    <p>Displays as an <code>ipywidgets.Text</code> widget with a text box</p>
+                </div>
+                <div class="example-card">
+                    <h4>🖥️ In Terminal</h4>
+                    <p>Prompts with <code>prompt_toolkit</code> providing autocomplete and history</p>
+                </div>
+            </div>
+
+            <!-- add_text_area -->
+            <h3><code>add_text_area()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Multi-line text input widget for longer text content.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier for this widget</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label/prompt text</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>placeholder</code></td>
+                        <td>str</td>
+                        <td>Placeholder text (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Textarea</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Textarea</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Multi-line text input
+description = gui.add_text_area("desc", "Project description:", 
+                                placeholder="Enter detailed description...")
+
+# For code snippets
+code_input = gui.add_text_area("code", "Paste your code:",
+                               default="# Your code here\n")
+
+gui.show()
+print(description.value)</code></pre>
+            </div>
+        </div>
+
+        <!-- Numeric Input Widgets -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>Numeric Input Widgets</h2>
+            </div>
+
+            <!-- add_int_range -->
+            <h3><code>add_int_range()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Integer input with minimum and maximum bounds. Shows as slider in Jupyter.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label text</td>
+                    </tr>
+                    <tr>
+                        <td><code>min_val</code></td>
+                        <td>int</td>
+                        <td>Minimum allowed value</td>
+                    </tr>
+                    <tr>
+                        <td><code>max_val</code></td>
+                        <td>int</td>
+                        <td>Maximum allowed value</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>default</code></td>
+                        <td>int</td>
+                        <td>Default value (default: min_val)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.IntSlider</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.IntSlider</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Integer slider/range input
+iterations = gui.add_int_range("iter", "Iterations:", 1, 1000, default=100)
+
+# Age input with bounds
+age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
+
+gui.show()
+print(f"Iterations: {iterations.value}")</code></pre>
+            </div>
+
+            <!-- add_float_range -->
+            <h3><code>add_float_range()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Float input with minimum and maximum bounds. Shows as slider in Jupyter.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label text</td>
+                    </tr>
+                    <tr>
+                        <td><code>min_val</code></td>
+                        <td>float</td>
+                        <td>Minimum allowed value</td>
+                    </tr>
+                    <tr>
+                        <td><code>max_val</code></td>
+                        <td>float</td>
+                        <td>Maximum allowed value</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>default</code></td>
+                        <td>float</td>
+                        <td>Default value (default: min_val)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.FloatSlider</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.FloatSlider</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Threshold slider/input
+threshold = gui.add_float_range("thresh", "Threshold:", 0.0, 1.0, default=0.5)
+
+# Learning rate with precision
+lr = gui.add_float_range("lr", "Learning rate:", 0.0001, 0.1, default=0.01)
+
+gui.show()
+print(f"Threshold: {threshold.value}")</code></pre>
+            </div>
+
+            <!-- add_bounded_int_text -->
+            <h3><code>add_bounded_int_text()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Integer text input with validation against min/max bounds.</p>
+            
+            <div class="code-block">
+                <pre><code class="language-python"># Bounded integer with validation
+percentage = gui.add_bounded_int_text("coverage", "Coverage %:", 0, 100)
+
+# Port number input
+port = gui.add_bounded_int_text("port", "Port:", 1024, 65535, default=8080)
+
+gui.show()</code></pre>
+            </div>
+
+            <!-- add_bounded_float_text -->
+            <h3><code>add_bounded_float_text()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Float text input with validation against min/max bounds.</p>
+            
+            <div class="code-block">
+                <pre><code class="language-python"># Bounded float with validation
+ratio = gui.add_bounded_float_text("ratio", "Aspect ratio:", 0.5, 2.0)
+
+# Temperature range
+temp = gui.add_bounded_float_text("temp", "Temperature:", -273.15, 1000.0)
+
+gui.show()</code></pre>
+            </div>
+
+            <!-- add_int_text and add_float_text -->
+            <h3><code>add_int_text()</code> & <code>add_float_text()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Unbounded numeric text input (no min/max validation).</p>
+            
+            <div class="code-block">
+                <pre><code class="language-python"># Unbounded integer input
+count = gui.add_int_text("count", "Number of samples:")
+
+# Unbounded float input
+weight = gui.add_float_text("weight", "Weight (kg):")
+
+gui.show()</code></pre>
+            </div>
+        </div>
+
+        <!-- Selection Widgets -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>Selection Widgets</h2>
+            </div>
+
+            <!-- add_check -->
+            <h3><code>add_check()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Boolean checkbox or yes/no prompt.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label/question text</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>default</code></td>
+                        <td>bool</td>
+                        <td>Default value (default: False)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Checkbox</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Checkbox</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Boolean checkbox (Jupyter) or yes/no prompt (terminal)
+debug = gui.add_check("debug", "Enable debug mode?", default=False)
+
+use_gpu = gui.add_check("gpu", "Use GPU acceleration?", default=True)
+
+verbose = gui.add_check("verbose", "Verbose output?")
+
+gui.show()
+
+if debug.value:
+    print("Debug mode enabled")
+
+if use_gpu.value:
+    print("Using GPU")</code></pre>
+            </div>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>💻 In Jupyter Notebook</h4>
+                    <p>Displays as a checkbox widget</p>
+                </div>
+                <div class="example-card">
+                    <h4>🖥️ In Terminal</h4>
+                    <p>Shows as "Yes/No" prompt with default selection</p>
+                </div>
+            </div>
+
+            <!-- add_dropdown -->
+            <h3><code>add_dropdown()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Single selection from a list of options.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>options</code></td>
+                        <td>list</td>
+                        <td>List of options to choose from</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label text</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>default</code></td>
+                        <td>any</td>
+                        <td>Default selected value (default: first option)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Dropdown</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Dropdown</code> (Jupyter) or <code>prompt_toolkit</code> (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Dropdown selection
+algorithm = gui.add_dropdown("algo", 
+                             ["linear", "polynomial", "rbf", "sigmoid"],
+                             "Kernel method:",
+                             default="rbf")
+
+# File format selection
+format_opt = gui.add_dropdown("format",
+                              ["PNG", "JPEG", "TIFF", "BMP"],
+                              "Output format:")
+
+# Mode selection
+mode = gui.add_dropdown("mode",
+                       ["CPU", "GPU", "Multi-GPU"],
+                       "Execution mode:")
+
+gui.show()
+print(f"Selected: {algorithm.value}")</code></pre>
+            </div>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>💻 In Jupyter Notebook</h4>
+                    <p>Displays as a dropdown menu widget</p>
+                </div>
+                <div class="example-card">
+                    <h4>🖥️ In Terminal</h4>
+                    <p>Shows as an autocomplete-enabled selection prompt</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- File & Path Widgets -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>File & Path Widgets</h2>
+            </div>
+
+            <!-- add_file_upload -->
+            <h3><code>add_file_upload()</code></h3>
+            <div class="availability-badge badge-jupyter">Jupyter Only</div>
+            <p>Visual file picker for Jupyter notebooks. Uses <code>ipyfilechooser</code>.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>accept</code></td>
+                        <td>str</td>
+                        <td>File filter pattern (e.g., "*.tif", "*.csv") (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Label text (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipyfilechooser.FileChooser</code></td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipyfilechooser.FileChooser</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># File picker for TIFF images
+input_file = gui.add_file_upload("input_image", accept="*.tif")
+
+# CSV file picker
+data_file = gui.add_file_upload("data", accept="*.csv", 
+                                description="Select data file:")
+
+# Accept multiple file types
+config_file = gui.add_file_upload("config", accept="*.yml,*.yaml,*.json")
+
+gui.show()
+print(f"Selected file: {input_file.value}")</code></pre>
+            </div>
+
+            <p><strong>⚠️ Jupyter Only:</strong> This widget only works in Jupyter notebooks. For terminal, use <code>add_path_completer()</code> instead.</p>
+
+            <!-- add_path_completer -->
+            <h3><code>add_path_completer()</code></h3>
+            <div class="availability-badge badge-terminal">Terminal Only</div>
+            <p>Path input with autocomplete for terminal environments.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Prompt text</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>default</code></td>
+                        <td>str</td>
+                        <td>Default path (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>remember_value</code></td>
+                        <td>bool</td>
+                        <td>Whether to remember value between sessions (default: True)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>prompt_toolkit</code></td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>prompt_toolkit</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Path input with autocomplete
+input_file = gui.add_path_completer("input", "Select input file:")
+
+output_dir = gui.add_path_completer("output_dir", "Output directory:",
+                                    default="./output")
+
+gui.show()
+print(f"File path: {input_file.value}")</code></pre>
+            </div>
+
+            <p><strong>⚠️ Terminal Only:</strong> This widget only works in terminal. For Jupyter, use <code>add_file_upload()</code> instead.</p>
+
+            <div class="feature-highlight">
+                <h3>💡 Cross-Environment File Selection</h3>
+                <p>For code that needs to work in both environments, you can use conditional logic:</p>
+                <div class="code-block">
+                    <pre><code class="language-python">from ezinput import EZInput
+import sys
+
+gui = EZInput("file_selector")
+
+# Detect environment and use appropriate widget
+if 'ipykernel' in sys.modules:
+    # Jupyter notebook
+    input_file = gui.add_file_upload("input", accept="*.csv")
+else:
+    # Terminal
+    input_file = gui.add_path_completer("input", "Select CSV file:")
+
+gui.show()
+print(f"File: {input_file.value}")</code></pre>
+                </div>
+                <p>Or better yet, just handle the file path as a string in your processing code and let users choose the appropriate input method!</p>
+            </div>
+        </div>
+
+        <!-- Display Widgets -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>Display Widgets</h2>
+            </div>
+
+            <!-- add_label -->
+            <h3><code>add_label()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Static text label for headers and instructions.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>tag</code></td>
+                        <td>str</td>
+                        <td>Optional unique identifier (default: None)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>value</code></td>
+                        <td>str</td>
+                        <td>Text to display (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Label</code> (Jupyter) or displayed as text (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Label</code> (Jupyter) or ignored (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Section headers
+gui.add_label(value="=== Input Parameters ===")
+input_file = gui.add_text("input", "Input file path:", placeholder="/path/to/file.tif")
+
+gui.add_label(value="=== Processing Options ===")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+
+gui.add_label(value="=== Advanced Settings ===")
+gpu = gui.add_check("gpu", "Use GPU?")
+
+gui.show()</code></pre>
+            </div>
+
+            <!-- add_output -->
+            <h3><code>add_output()</code></h3>
+            <div class="availability-badge badge-jupyter">Jupyter Only</div>
+            <p>Output display area for showing results in Jupyter notebooks.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Output</code></td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Output</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Create output area
+gui.add_output("results")
+
+gui.show()
+
+# Use output area
+with gui["results"]:
+    print("Processing started...")
+    # Your processing code
+    print("Complete!")</code></pre>
+            </div>
+
+            <!-- add_HTML -->
+            <h3><code>add_HTML()</code></h3>
+            <div class="availability-badge badge-jupyter">Jupyter Only</div>
+            <p>Display rich HTML content in Jupyter notebooks.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>value</code></td>
+                        <td>str</td>
+                        <td>HTML content to display (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.HTML</code></td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.HTML</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Rich HTML display
+gui.add_HTML("warning", 
+             '<p style="color:red; font-weight:bold">⚠️ Experimental Feature</p>')
+
+gui.add_HTML("info",
+             '''<div style="background:#e3f2fd; padding:10px; border-radius:5px;">
+                <b>Note:</b> This analysis may take several minutes.
+                </div>''')
+
+gui.show()</code></pre>
+            </div>
+        </div>
+
+        <!-- Callbacks -->
+        <div class="widget-section">
+            <div class="widget-header">
+                <h2>Callbacks & Actions</h2>
+            </div>
+
+            <h3><code>add_callback()</code></h3>
+            <div class="availability-badge badge-both">Both Environments</div>
+            <p>Execute a function with current GUI values. Creates a button in Jupyter, executes immediately in terminal.</p>
+            
+            <table class="param-table">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>unique_tag</code></td>
+                        <td>str</td>
+                        <td>Unique identifier</td>
+                    </tr>
+                    <tr>
+                        <td><code>callback_function</code></td>
+                        <td>callable</td>
+                        <td>Function to execute</td>
+                    </tr>
+                    <tr>
+                        <td><code>arguments_dict</code></td>
+                        <td>dict</td>
+                        <td>Arguments to pass (typically <code>gui.get_values()</code>)</td>
+                    </tr>
+                    <tr class="optional-section">
+                        <td colspan="3">Optional Parameters</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>description</code></td>
+                        <td>str</td>
+                        <td>Button label (Jupyter) or action description (default: "")</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>*args</code></td>
+                        <td>tuple</td>
+                        <td>Additional positional arguments passed to <code>ipywidgets.Button</code> (Jupyter) or ignored (Terminal)</td>
+                    </tr>
+                    <tr class="optional-row">
+                        <td><code>**kwargs</code></td>
+                        <td>dict</td>
+                        <td>Additional keyword arguments passed to <code>ipywidgets.Button</code> (Jupyter) or ignored (Terminal)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+def process_data(values):
+    """Process data with current parameter values."""
+    threshold = values["threshold"].value
+    method = values["method"].value
+    input_file = values["input_file"].value
+    
+    print(f"Processing {input_file}")
+    print(f"Method: {method}, Threshold: {threshold}")
+    
+    # Your processing code here
+    result = perform_analysis(input_file, method, threshold)
+    
+    return result
+
+# Create GUI
+gui = EZInput("data_processor")
+
+gui.add_text("input_file", "Input file path:", placeholder="/path/to/image.tif")
+gui.add_float_range("threshold", "Threshold:", 0.0, 1.0)
+gui.add_dropdown("method", ["watershed", "otsu"], "Method:")
+
+# Add callback button/action
+gui.add_callback("run", process_data, gui.get_values(),
+                 description="Start Processing")
+
+gui.show()</code></pre>
+            </div>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>💻 In Jupyter Notebook</h4>
+                    <p>Creates a clickable button. Function executes when clicked.</p>
+                </div>
+                <div class="example-card">
+                    <h4>🖥️ In Terminal</h4>
+                    <p>Function executes immediately after all inputs are collected.</p>
+                </div>
+            </div>
+
+            <p><strong>Why "add_callback"?</strong> The name maintains API consistency between Jupyter's event-driven (button click) and terminal's sequential (immediate execution) models.</p>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Developed at the <a href="https://henriqueslab.github.io/" target="_blank">Henriques Laboratory</a>, UCL</p>
+            <p>Licensed under MIT | <a href="https://github.com/HenriquesLab/EZInput">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

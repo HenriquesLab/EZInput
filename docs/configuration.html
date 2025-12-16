@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Guide - EZInput</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo_white_bg.png" alt="EZInput Logo" class="logo">
+                <span>EZInput</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 4rem 2rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">Configuration Guide</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3rem;">
+            Master parameter persistence, configuration files, and value priority in EZInput
+        </p>
+
+        <!-- Value Persistence -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Value Persistence Basics
+            </h2>
+            
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                EZInput automatically remembers widget values between sessions. This is perfect for iterative workflows where you're tuning parameters.
+            </p>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+# First run - user enters values
+gui = EZInput("my_analysis")
+threshold = gui.add_float_range("thresh", "Threshold:", 0.0, 1.0)
+iterations = gui.add_int_range("iter", "Iterations:", 10, 1000)
+gui.show()
+
+# User enters: threshold=0.75, iterations=500
+
+# --------------------------------------------------
+
+# Second run (next day) - values are remembered!
+gui = EZInput("my_analysis")  # Same title = same config
+threshold = gui.add_float_range("thresh", "Threshold:", 0.0, 1.0)
+iterations = gui.add_int_range("iter", "Iterations:", 10, 1000)
+gui.show()
+
+# Defaults are now: threshold=0.75, iterations=500 ✨</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>🔑 Key Points</h3>
+                <ul>
+                    <li>Persistence is based on the <strong>GUI title</strong> (first parameter to <code>EZInput()</code>)</li>
+                    <li>Values are stored in <code>~/.ezinput/{title}.yml</code></li>
+                    <li>Each widget is identified by its <strong>unique_tag</strong></li>
+                    <li>Works across both Jupyter and terminal environments</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Explicit Remember Value -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Controlling Value Memory
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Use the <code>remember_value</code> parameter (defaults to True) to control which values persist:
+            </p>
+
+            <div class="code-block">
+                <pre><code class="language-python">gui = EZInput("preprocessing")
+
+# These values change frequently (don't remember)
+input_file = gui.add_text("input", "Input file:", remember_value=False)
+output_dir = gui.add_text("output", "Output directory:", remember_value=False)
+
+# These are stable parameters (remember them - this is the default)
+method = gui.add_dropdown("method", ["watershed", "otsu"], "Method:", 
+                          remember_value=True)
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, 
+                                remember_value=True)
+
+gui.show()
+
+# Next time: method and threshold are remembered, 
+# but input/output need to be re-entered</code></pre>
+            </div>
+
+            <p><strong>When to use <code>remember_value=True</code> (default):</strong></p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li>Parameters that are consistent across multiple runs</li>
+                <li>Algorithm settings (method, kernel type, etc.)</li>
+                <li>Processing parameters (threshold, iterations, etc.)</li>
+                <li>User preferences (verbose mode, use GPU, etc.)</li>
+            </ul>
+
+            <p><strong>When to use <code>remember_value=False</code>:</strong></p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li>File paths (usually change between runs)</li>
+                <li>Temporary or session-specific values</li>
+                <li>Values that should reset each time</li>
+            </ul>
+        </section>
+
+        <!-- Configuration Files -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Configuration Files
+            </h2>
+
+            <h3>Saving Configurations</h3>
+            <div class="code-block">
+                <pre><code class="language-python">gui = EZInput("cell_segmentation")
+
+# Add widgets
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+min_size = gui.add_int_range("min_size", "Min size:", 10, 1000)
+method = gui.add_dropdown("method", ["otsu", "adaptive"], "Method:")
+
+gui.show()
+
+# User enters optimal values...
+
+# Save current configuration
+gui.save_parameters("optimal_settings.yml")
+
+# Or specify full path
+gui.save_parameters("/path/to/configs/experiment1.yml")</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;">Loading Configurations</h3>
+            <div class="code-block">
+                <pre><code class="language-python">gui = EZInput("cell_segmentation")
+
+# Load saved configuration
+gui.load_parameters("optimal_settings.yml")
+
+# Add widgets (values from file will be used)
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+min_size = gui.add_int_range("min_size", "Min size:", 10, 1000)
+method = gui.add_dropdown("method", ["otsu", "adaptive"], "Method:")
+
+gui.show()
+
+# Widgets now have values from optimal_settings.yml!</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>📁 Default Configuration Location</h3>
+                <p>Configuration files are stored in:</p>
+                <div class="code-block">
+                    <pre><code>~/.ezinput/{title}.yml</code></pre>
+                </div>
+                <p>Where <code>{title}</code> is the name you passed to <code>EZInput()</code>.</p>
+                <p style="margin-top: 1rem;"><strong>Example:</strong></p>
+                <div class="code-block">
+                    <pre><code class="language-python">gui = EZInput("image_analysis_v2")
+# Config saved to: ~/.ezinput/image_analysis_v2.yml</code></pre>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 3rem;">Configuration File Format</h3>
+            <p>EZInput uses YAML format for configuration files. Here's what a config file looks like:</p>
+            <div class="code-block">
+                <pre><code class="language-yaml"># ~/.ezinput/my_analysis.yml
+
+thresh:
+  value: 0.75
+  type: float
+
+method:
+  value: watershed
+  type: str
+
+min_size:
+  value: 250
+  type: int
+
+use_gpu:
+  value: true
+  type: bool</code></pre>
+            </div>
+
+            <p style="margin-top: 1.5rem;">You can manually edit these files or share them with colleagues!</p>
+        </section>
+
+        <!-- Value Priority -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Value Priority Order
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                When multiple sources provide values for a widget, EZInput follows this priority:
+            </p>
+
+            <div style="background: var(--gray-100); padding: 2rem; border-radius: var(--border-radius); margin-bottom: 2rem;">
+                <ol style="font-size: 1.1rem; line-height: 2;">
+                    <li><strong>Loaded parameters</strong> (highest priority)<br>
+                        <span style="color: var(--text-secondary);">Values from <code>load_parameters()</code></span>
+                    </li>
+                    <li><strong>Remembered values</strong><br>
+                        <span style="color: var(--text-secondary);">From previous sessions using <code>remember_value=True</code> parameter</span>
+                    </li>
+                    <li><strong>Explicit defaults</strong><br>
+                        <span style="color: var(--text-secondary);">Passed to widget methods (e.g., <code>default=0.5</code>)</span>
+                    </li>
+                    <li><strong>Widget defaults</strong> (lowest priority)<br>
+                        <span style="color: var(--text-secondary);">Built-in fallback values</span>
+                    </li>
+                </ol>
+            </div>
+
+            <h3>Priority Examples</h3>
+            
+            <div class="code-block">
+                <pre><code class="language-python"># Example 1: Loaded parameters override everything
+gui = EZInput("test")
+gui.load_parameters("config.yml")  # Contains thresh=0.9
+
+# This default is ignored because config.yml has thresh=0.9
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, default=0.5)
+
+gui.show()
+# Result: threshold defaults to 0.9 (from config.yml)</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Example 2: Remembered values override explicit defaults
+# Previous run: user entered thresh=0.75
+gui = EZInput("test")
+gui.remember_value("thresh")
+
+# This default is ignored because remembered value exists
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, default=0.5)
+
+gui.show()
+# Result: threshold defaults to 0.75 (remembered from before)</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Example 3: Explicit defaults override widget defaults
+gui = EZInput("test")
+
+# Uses your explicit default (no config file, not remembered)
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, default=0.8)
+
+gui.show()
+# Result: threshold defaults to 0.8 (explicit default)</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Example 4: Widget defaults (last resort)
+gui = EZInput("test")
+
+# No config, not remembered, no explicit default
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+
+gui.show()
+# Result: threshold defaults to 0 (min_val is the widget default)</code></pre>
+            </div>
+        </section>
+
+        <!-- Sharing Configs -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Sharing Configuration Files
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                Configuration files are perfect for sharing parameter sets with collaborators or across projects.
+            </p>
+
+            <h3>Workflow Example</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># Researcher 1: Find optimal parameters
+gui = EZInput("cell_analysis")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+min_size = gui.add_int_range("min_size", "Min size:", 10, 1000)
+gui.show()
+
+# After experimentation, save optimal settings
+gui.save_parameters("optimal_cell_params.yml")
+
+# Share optimal_cell_params.yml with team
+
+# --------------------------------------------------
+
+# Researcher 2: Use the optimal parameters
+gui = EZInput("cell_analysis")
+gui.load_parameters("optimal_cell_params.yml")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+min_size = gui.add_int_range("min_size", "Min size:", 10, 1000)
+gui.show()
+
+# Automatically starts with optimal values! 🎉</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;">Version Control Best Practices</h3>
+            <div class="feature-highlight">
+                <ul>
+                    <li>Commit configuration files to git for reproducibility</li>
+                    <li>Use descriptive names: <code>optimal_params_v2.yml</code>, <code>production_config.yml</code></li>
+                    <li>Document what each config is for in comments or README</li>
+                    <li>Keep separate configs for different experiments/datasets</li>
+                    <li>Add <code>~/.ezinput/</code> to <code>.gitignore</code> (personal settings)</li>
+                    <li>Store shared configs in your project directory</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Multiple Configurations -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Managing Multiple Configurations
+            </h2>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+# Different configs for different scenarios
+configs = {
+    "fast": "fast_preview.yml",
+    "balanced": "balanced_quality.yml",
+    "high_quality": "high_quality.yml"
+}
+
+# Let user select config
+gui = EZInput("config_selector")
+config_choice = gui.add_dropdown("config", list(configs.keys()), 
+                                 "Quality preset:")
+gui.show()
+
+# Load selected config
+analysis_gui = EZInput("image_analysis")
+analysis_gui.load_parameters(configs[config_choice.value])
+
+# Add widgets (values from selected config)
+threshold = analysis_gui.add_float_range("thresh", "Threshold:", 0, 1)
+iterations = analysis_gui.add_int_range("iter", "Iterations:", 10, 1000)
+analysis_gui.show()</code></pre>
+            </div>
+        </section>
+
+        <!-- Best Practices -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Configuration Best Practices
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3 style="color: var(--primary-color);">✅ Do</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>Use descriptive GUI titles</li>
+                        <li>Version your configurations</li>
+                        <li>Document what configs are for</li>
+                        <li>Use <code>remember_value=True</code> parameter for stable params</li>
+                        <li>Share configs in version control</li>
+                        <li>Test loaded configs before using</li>
+                    </ul>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3 style="color: #dc2626;">❌ Don't</h3>
+                    <ul style="line-height: 1.8;">
+                        <li>Use generic titles like "test" or "gui"</li>
+                        <li>Remember file paths (they change)</li>
+                        <li>Hardcode config paths</li>
+                        <li>Forget to handle missing config files</li>
+                        <li>Mix different GUIs with same title</li>
+                        <li>Ignore value priority rules</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Advanced: Programmatic Access -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Advanced: Programmatic Configuration Access
+            </h2>
+
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+gui = EZInput("advanced")
+
+# Add widgets
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+method = gui.add_dropdown("method", ["A", "B"], "Method:")
+
+gui.show()
+
+# Get all current values as dict
+values = gui.get_values()
+print(f"Threshold: {values['thresh'].value}")
+print(f"Method: {values['method'].value}")
+
+# Access individual widgets
+threshold_widget = gui["thresh"]
+print(f"Current threshold: {threshold_widget.value}")
+
+# Update values programmatically
+gui["thresh"].value = 0.8
+
+# Save current state
+gui.save_parameters("current_state.yml")</code></pre>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Developed at the <a href="https://henriqueslab.github.io/" target="_blank">Henriques Laboratory</a>, UCL</p>
+            <p>Licensed under MIT | <a href="https://github.com/HenriquesLab/EZInput">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

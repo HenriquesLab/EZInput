@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - EZInput</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <img src="logo_white_bg.png" alt="EZInput Logo" class="logo">
+                <span>EZInput</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="widgets.html">Widgets</a></li>
+                <li><a href="tutorials.html">Tutorials</a></li>
+                <li><a href="configuration.html">Configuration</a></li>
+                <li><a href="api.html">API Reference</a></li>
+                <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding: 4rem 2rem;">
+        <h1 style="font-size: 3rem; margin-bottom: 1rem;">API Reference</h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 3rem;">
+            Complete API documentation for EZInput classes and methods
+        </p>
+
+        <!-- Import -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Importing EZInput
+            </h2>
+
+            <div class="code-block">
+                <pre><code class="language-python"># Recommended: Auto-detects environment
+from ezinput import EZInput
+
+# Alternative: Import specific implementation
+from ezinput import EZInputJupyter  # For Jupyter notebooks
+from ezinput import EZInputPrompt   # For terminal</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>💡 Auto-Detection</h3>
+                <p><code>EZInput</code> automatically detects whether you're in a Jupyter notebook or terminal and uses the appropriate implementation. In most cases, you should use <code>from ezinput import EZInput</code>.</p>
+            </div>
+        </section>
+
+        <!-- EZInput Class -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                EZInput Class
+            </h2>
+
+            <h3><code>EZInput(title: str)</code></h3>
+            <p>Main class for creating unified GUIs that work in both Jupyter and terminal.</p>
+
+            <h4 style="margin-top: 2rem;">Parameters</h4>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li><code>title</code> (str): Unique identifier for this GUI. Used for configuration file naming and value persistence. Should be descriptive and unique per application.</li>
+            </ul>
+
+            <h4 style="margin-top: 2rem;">Example</h4>
+            <div class="code-block">
+                <pre><code class="language-python">gui = EZInput("image_analysis_v2")
+# Config saved to: ~/.ezinput/image_analysis_v2.yml</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>⚠️ Important: Unique Titles</h3>
+                <p>Each distinct GUI should have a unique title to avoid configuration conflicts:</p>
+                <ul>
+                    <li>✅ Good: <code>"preprocessing_v1"</code>, <code>"cell_segmentation"</code>, <code>"user_johndoe_analysis"</code></li>
+                    <li>❌ Bad: <code>"test"</code>, <code>"gui"</code>, <code>"main"</code></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Core Methods -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Core Methods
+            </h2>
+
+            <h3><code>show()</code></h3>
+            <p>Display the GUI and collect user input.</p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li><strong>Jupyter</strong>: Displays all widgets in the notebook</li>
+                <li><strong>Terminal</strong>: Prompts for each widget value sequentially</li>
+            </ul>
+            <div class="code-block">
+                <pre><code class="language-python">gui.show()  # Display the GUI</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;"><code>get_values() → dict</code></h3>
+            <p>Returns a dictionary of all widget objects indexed by their unique_tag.</p>
+            <div class="code-block">
+                <pre><code class="language-python">values = gui.get_values()
+threshold_value = values["threshold"].value
+method_value = values["method"].value</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;"><code>__getitem__(unique_tag: str) → widget</code></h3>
+            <p>Access a widget by its unique_tag using dictionary-style indexing.</p>
+            <div class="code-block">
+                <pre><code class="language-python">threshold_widget = gui["threshold"]
+print(threshold_widget.value)
+
+# Update value
+gui["threshold"].value = 0.8</code></pre>
+            </div>
+        </section>
+
+        <!-- Configuration Methods -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Configuration Methods
+            </h2>
+
+            <h3><code>save_parameters(filename: str)</code></h3>
+            <p>Save current parameter values to a YAML file.</p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li><strong>filename</strong> (str): Name or path of config file. If just a name (no path), saves to <code>~/.ezinput/filename</code></li>
+            </ul>
+            <div class="code-block">
+                <pre><code class="language-python"># Save to default location
+gui.save_parameters("optimal_params.yml")
+# Saved to: ~/.ezinput/optimal_params.yml
+
+# Save to specific path
+gui.save_parameters("/path/to/configs/experiment1.yml")</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;"><code>load_parameters(filename: str)</code></h3>
+            <p>Load parameter values from a YAML file. Call before adding widgets to use loaded values as defaults.</p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li><strong>filename</strong> (str): Name or path of config file to load</li>
+            </ul>
+            <div class="code-block">
+                <pre><code class="language-python">gui = EZInput("analysis")
+gui.load_parameters("optimal_params.yml")  # Load first
+
+# Widgets will use loaded values as defaults
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1)
+gui.show()</code></pre>
+            </div>
+
+            <h3 style="margin-top: 3rem;"><code>remember_value(unique_tag: str)</code></h3>
+            <p>Mark a widget's value to be remembered across sessions.</p>
+            <ul style="margin-left: 2rem; line-height: 1.8;">
+                <li><strong>unique_tag</strong> (str): Tag of widget to remember</li>
+            </ul>
+            <div class="code-block">
+                <pre><code class="language-python">method = gui.add_dropdown("method", ["A", "B"], "Method:")
+gui.remember_value("method")  # Remember this value
+
+# Next run: method will default to previously selected value</code></pre>
+            </div>
+        </section>
+
+        <!-- Widget Methods Reference -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Widget Methods Quick Reference
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                For detailed widget documentation, see the <a href="widgets.html" style="color: var(--primary-color);">Widget Reference</a>.
+            </p>
+
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead style="background: var(--gray-100);">
+                    <tr>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--gray-300);">Method</th>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--gray-300);">Widget Type</th>
+                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--gray-300);">Availability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_text()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Single-line text input</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_text_area()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Multi-line text input</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_int_range()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Integer slider/input with bounds</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_float_range()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Float slider/input with bounds</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_int_text()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Integer input (no bounds)</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_float_text()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Float input (no bounds)</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_bounded_int_text()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Integer with validation</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_bounded_float_text()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Float with validation</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_check()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Boolean checkbox/yes-no</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_dropdown()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Selection from list</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_file_upload()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Visual file picker</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Jupyter only</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_path_completer()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Path autocomplete</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Terminal only</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_label()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Static text/header</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_output()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Output display area</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Jupyter only</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_HTML()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Rich HTML content</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Jupyter only</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);"><code>add_callback()</code></td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Action button/execution</td>
+                        <td style="padding: 0.75rem; border-bottom: 1px solid var(--gray-200);">Both</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- CLI Command -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Command Line Interface
+            </h2>
+
+            <h3><code>ezinput &lt;notebook.ipynb&gt;</code></h3>
+            <p>Execute a Jupyter notebook from the terminal. EZInput GUIs in the notebook will appear as terminal prompts.</p>
+
+            <div class="code-block">
+                <pre><code class="language-bash"># Run notebook from terminal
+ezinput my_analysis.ipynb
+
+# GUIs appear as interactive prompts
+# Values are collected, then notebook executes</code></pre>
+            </div>
+
+            <div class="feature-highlight">
+                <h3>💡 Use Cases</h3>
+                <ul>
+                    <li>Batch processing multiple datasets</li>
+                    <li>Running notebooks on remote servers</li>
+                    <li>Integrating notebooks into shell scripts</li>
+                    <li>Automated workflows with parameter input</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Advanced Topics -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Advanced Topics
+            </h2>
+
+            <h3>Value Priority Order</h3>
+            <p>When multiple sources provide values for a widget:</p>
+            <ol style="margin-left: 2rem; line-height: 2; font-size: 1.1rem;">
+                <li><strong>Loaded parameters</strong> (highest priority) - from <code>load_parameters()</code></li>
+                <li><strong>Remembered values</strong> - from previous sessions using <code>remember_value=True</code> parameter</li>
+                <li><strong>Explicit defaults</strong> - passed to widget methods</li>
+                <li><strong>Widget defaults</strong> (lowest priority) - built-in fallbacks</li>
+            </ol>
+
+            <h3 style="margin-top: 3rem;">Configuration File Location</h3>
+            <p>Configuration files are stored in:</p>
+            <div class="code-block">
+                <pre><code>~/.ezinput/{title}.yml</code></pre>
+            </div>
+            <p>You can also specify absolute paths for <code>save_parameters()</code> and <code>load_parameters()</code>.</p>
+
+            <h3 style="margin-top: 3rem;">Widget Ordering</h3>
+            <p>Widgets appear in the order they are added:</p>
+            <div class="code-block">
+                <pre><code class="language-python">gui.add_label(value="=== Section 1 ===")  # First
+gui.add_text("name", "Name:")               # Second
+gui.add_int_range("age", "Age:", 0, 120)    # Third
+gui.show()  # Displays in this order</code></pre>
+            </div>
+        </section>
+
+        <!-- Further Reading -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Further Reading
+            </h2>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>📖 Widget Reference</h3>
+                    <p>Detailed documentation for all widgets</p>
+                    <a href="widgets.html" style="color: var(--primary-color); font-weight: 600;">View Widgets →</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>⚙️ Configuration Guide</h3>
+                    <p>Deep dive into persistence and configs</p>
+                    <a href="configuration.html" style="color: var(--primary-color); font-weight: 600;">Read Guide →</a>
+                </div>
+                
+                <div style="background: white; padding: 2rem; border-radius: var(--border-radius); box-shadow: var(--shadow-md);">
+                    <h3>🎓 Tutorials</h3>
+                    <p>Step-by-step walkthroughs</p>
+                    <a href="tutorials.html" style="color: var(--primary-color); font-weight: 600;">Browse Tutorials →</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Developed at the <a href="https://henriqueslab.github.io/" target="_blank">Henriques Laboratory</a>, UCL</p>
+            <p>Licensed under MIT | <a href="https://github.com/HenriquesLab/EZInput">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
