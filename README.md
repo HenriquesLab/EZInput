@@ -238,6 +238,15 @@ gui2 = EZInput("my_analysis", params_file="my_config.yml")
 - Explicit saves: wherever you specify
 - Auto-saved settings: `~/.ezinput/{title}.yml`
 
+**Resetting to defaults:**
+```python
+# Clear all remembered values - returns widgets to original defaults
+gui.restore_defaults()
+
+# ⚠️ Important: Re-run your cell (Jupyter) or script (terminal) to see the reset take effect
+# The method removes the memory file but doesn't immediately change displayed widgets
+```
+
 ## 🎨 Available Widgets
 
 All widgets work identically in Jupyter and terminal. Here's the complete reference:
