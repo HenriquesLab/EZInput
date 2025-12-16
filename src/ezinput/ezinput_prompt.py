@@ -115,13 +115,14 @@ class EZInputPrompt:
         str
             The text entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = kwargs.pop("value")
         if placeholder:
             kwargs["default"] = placeholder
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = self.params[tag]
         value = prompt(message=description + ": ", *args, **kwargs)  # type: ignore[misc]
         self.cfg[tag] = value
         self.elements[tag] = Element(self.cfg[tag])
@@ -185,13 +186,14 @@ class EZInputPrompt:
         str
             The text entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
         if placeholder:
             kwargs["default"] = placeholder
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
         value = prompt(message=description + ": ", *args, **kwargs)  # type: ignore[misc]
         self.cfg[tag] = value
         self.elements[tag] = Element(self.cfg[tag])
@@ -349,17 +351,19 @@ class EZInputPrompt:
         bool
             True if "yes" is selected, False otherwise.
         """
+        if "value" in kwargs:
+            val = kwargs.pop("value")
+            kwargs["default"] = "yes" if val else "no"
         if "default" in kwargs and isinstance(kwargs["default"], bool):
             kwargs["default"] = "yes" if kwargs["default"] else "no"
 
-        if self.params is not None:
-            if tag in self.params:
-                if self.params[tag]:
-                    kwargs["default"] = "yes"
-                else:
-                    kwargs["default"] = "no"
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             if self.cfg[tag]:
+                kwargs["default"] = "yes"
+            else:
+                kwargs["default"] = "no"
+        if self.params is not None and tag in self.params:
+            if self.params[tag]:
                 kwargs["default"] = "yes"
             else:
                 kwargs["default"] = "no"
@@ -409,14 +413,15 @@ class EZInputPrompt:
         int
             The integer value entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
         value = prompt(  # type: ignore[misc]
             *args,
             message=description + ": ",
@@ -467,14 +472,15 @@ class EZInputPrompt:
         int
             The integer value entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
 
         value = prompt(  # type: ignore[misc]
             *args,
@@ -522,14 +528,15 @@ class EZInputPrompt:
         float
             The float value entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
         if "default" in kwargs and isinstance(kwargs["default"], float):
             kwargs["default"] = str(kwargs["default"])
 
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
         value = prompt(  # type: ignore[misc]
             *args,
             message=description + ": ",
@@ -580,14 +587,15 @@ class EZInputPrompt:
         float
             The float value entered by the user.
         """
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
         if "default" in kwargs and isinstance(kwargs["default"], int):
             kwargs["default"] = str(kwargs["default"])
 
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
 
         value = prompt(  # type: ignore[misc]
             *args,
@@ -638,11 +646,12 @@ class EZInputPrompt:
         str
             The selected choice.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if "value" in kwargs:
+            kwargs["default"] = kwargs.pop("value")
+        if remember_value and tag in self.cfg:
             kwargs["default"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = self.params[tag]
 
         value = prompt(  # type: ignore[misc]
             *args,
@@ -684,11 +693,12 @@ class EZInputPrompt:
         Path
             The path entered by the user.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["default"] = str(self.params[tag])
-        elif remember_value and tag in self.cfg:
+        if "value" in kwargs:
+            kwargs["default"] = str(kwargs.pop("value"))
+        if remember_value and tag in self.cfg:
             kwargs["default"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["default"] = str(self.params[tag])
 
         value = prompt(  # type: ignore[misc]
             *args,

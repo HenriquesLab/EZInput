@@ -194,7 +194,6 @@ class EZInputJupyter:
 
         self.elements[tag].on_click(wrapped)
 
-
     def add_text_area(
         self,
         tag: str,
@@ -224,11 +223,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Textarea(
             description=description,
@@ -303,15 +301,16 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params and vmin <= self.params[tag] <= vmax:
-                kwargs["value"] = self.params[tag]
-        elif (
+        if (
             remember_value
             and tag in self.cfg
             and vmin <= self.cfg[tag] <= vmax
         ):
             kwargs["value"] = int(self.cfg[tag])
+        if self.params is not None:
+            if tag in self.params and vmin <= self.params[tag] <= vmax:
+                kwargs["value"] = self.params[tag]
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntSlider(
             description=description,
@@ -404,15 +403,18 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params and vmin <= self.params[tag] <= vmax:
-                kwargs["value"] = self.params[tag]
-        elif (
+        if (
             remember_value
             and tag in self.cfg
             and vmin <= self.cfg[tag] <= vmax
         ):
-            kwargs["value"] = int(self.cfg[tag])
+            kwargs["value"] = float(self.cfg[tag])
+        if (
+            self.params is not None
+            and tag in self.params
+            and vmin <= self.params[tag] <= vmax
+        ):
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatSlider(
             description=description,
@@ -499,11 +501,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Checkbox(
             description=description,
@@ -542,11 +543,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
 
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntText(
@@ -593,11 +593,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedIntText(
             min=vmin,
@@ -639,11 +638,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatText(
             description=description,
@@ -689,11 +687,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedFloatText(
             min=vmin,
@@ -740,9 +737,8 @@ class EZInputJupyter:
         """
         if remember_value and tag in self.cfg and self.cfg[tag] in options:
             kwargs["value"] = self.cfg[tag]
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Dropdown(
             options=options,
@@ -897,11 +893,10 @@ class EZInputJupyter:
         **kwargs : dict
             Additional keyword arguments for the widget.
         """
-        if self.params is not None:
-            if tag in self.params:
-                kwargs["value"] = self.params[tag]
-        elif remember_value and tag in self.cfg:
+        if remember_value and tag in self.cfg:
             kwargs["value"] = self.cfg[tag]
+        if self.params is not None and tag in self.params:
+            kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
         self.elements[tag] = custom_widget(
             *args,
