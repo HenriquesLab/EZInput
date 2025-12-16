@@ -360,6 +360,109 @@ analysis_gui.show()</code></pre>
             </div>
         </section>
 
+        <!-- Resetting to Defaults -->
+        <section style="margin-bottom: 4rem;">
+            <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
+                Resetting to Default Values
+            </h2>
+
+            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                The <code>restore_defaults()</code> method clears all remembered values, returning widgets to their original defaults.
+            </p>
+
+            <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 1.5rem; margin-bottom: 2rem; border-radius: var(--border-radius);">
+                <h3 style="color: #856404; margin-top: 0;">⚠️ Important: Re-execution Required</h3>
+                <p style="color: #856404; margin: 0;">
+                    <strong>In Jupyter:</strong> You must re-run the cell containing your widgets after calling <code>restore_defaults()</code>.<br>
+                    <strong>In Terminal:</strong> You must re-run your script after calling <code>restore_defaults()</code>.
+                </p>
+                <p style="color: #856404; margin-top: 1rem; margin-bottom: 0;">
+                    The method removes the memory file (<code>~/.ezinput/{title}.yml</code>), but the widgets won't visually change until you re-execute the code that creates them.
+                </p>
+            </div>
+
+            <h3>Basic Usage</h3>
+            <div class="code-block">
+                <pre><code class="language-python">from ezinput import EZInput
+
+gui = EZInput("my_analysis")
+
+# Add widgets with remember_value=True parameter
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, 
+                                default=0.5, remember_value=True)
+method = gui.add_dropdown("method", ["A", "B", "C"], "Method:", 
+                          default="A", remember_value=True)
+
+gui.show()
+
+# After user runs multiple times with different values...
+# Clear all remembered values
+gui.restore_defaults()
+
+print("✓ Remembered values cleared!")
+print("🔄 Re-run this cell/script to see default values restored.")</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2.5rem;">Workflow Example (Jupyter)</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># Cell 1: Initial setup with remembered values
+from ezinput import EZInput
+
+gui = EZInput("experiment")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, 
+                                default=0.5, remember_value=True)
+gui.show()
+
+# User sets threshold=0.8, runs analysis multiple times...
+# threshold.value is now remembered as 0.8
+
+# Cell 2: Reset to defaults
+gui.restore_defaults()  # Deletes ~/.ezinput/experiment.yml
+
+# Cell 3: Re-run Cell 1 to see defaults
+# NOW when you re-run Cell 1, threshold will default to 0.5 again!</code></pre>
+            </div>
+
+            <h3 style="margin-top: 2.5rem;">Workflow Example (Terminal Script)</h3>
+            <div class="code-block">
+                <pre><code class="language-python"># analyze.py
+from ezinput import EZInput
+import sys
+
+if len(sys.argv) > 1 and sys.argv[1] == "--reset":
+    # User ran: python analyze.py --reset
+    gui = EZInput("analysis")
+    gui.restore_defaults()
+    print("✓ Defaults restored!")
+    print("🔄 Run 'python analyze.py' again to use default values.")
+    sys.exit(0)
+
+# Normal execution
+gui = EZInput("analysis")
+threshold = gui.add_float_range("thresh", "Threshold:", 0, 1, 
+                                default=0.5, remember_value=True)
+gui.show()
+
+# Run analysis with threshold.value...
+
+# Usage:
+# python analyze.py          # Normal run (uses remembered values)
+# python analyze.py --reset  # Clear remembered values
+# python analyze.py          # Next run uses defaults again</code></pre>
+            </div>
+
+            <div class="feature-highlight" style="margin-top: 2rem;">
+                <h3>💡 When to Use restore_defaults()</h3>
+                <ul style="line-height: 1.8;">
+                    <li>Starting a fresh experiment with clean parameters</li>
+                    <li>Testing your GUI with original default values</li>
+                    <li>Removing accumulated remembered values from development</li>
+                    <li>Providing a "reset" option in your scripts</li>
+                    <li>Debugging when values seem stuck at unexpected defaults</li>
+                </ul>
+            </div>
+        </section>
+
         <!-- Best Practices -->
         <section style="margin-bottom: 4rem;">
             <h2 style="border-left: 4px solid var(--primary-color); padding-left: 1.5rem; margin-bottom: 2rem;">
