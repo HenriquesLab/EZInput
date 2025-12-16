@@ -20,7 +20,6 @@
                 <li><a href="#features">Features</a></li>
                 <li><a href="#quickstart">Quick Start</a></li>
                 <li><a href="widgets.html">Widgets</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
                 <li><a href="configuration.html">Configuration</a></li>
                 <li><a href="api.html">API Reference</a></li>
                 <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
@@ -106,6 +105,7 @@ gui.show()
 print(f"Hello {name.value}, you are {age.value} years old!")</code></pre>
                 </div>
                 <p class="code-note">This exact code works in both Jupyter notebooks and terminal! 🎉</p>
+                <p class="code-note" style="margin-top: 1rem;"><strong>📓 Jupyter Note:</strong> In notebooks, put the code that accesses <code>.value</code> (like the print statements) in a separate cell below <code>gui.show()</code>. Run it after you've entered your values!</p>
             </div>
 
             <div class="example-section">
@@ -136,6 +136,20 @@ gui.show()
 print(f"Processing {input_file.value}")
 print(f"Threshold: {threshold.value}, Method: {method.value}")</code></pre>
                 </div>
+                <p class="code-note" style="margin-top: 1rem;"><strong>📓 Jupyter Note:</strong> In notebooks, create a new cell after <code>gui.show()</code> for the code that accesses widget values. This allows you to interact with the widgets before accessing their values.</p>
+            </div>
+
+            <div class="cli-highlight">
+                <h3>🖥️ Run Notebooks from Terminal</h3>
+                <p>Execute your Jupyter notebooks as command-line tools with <code>ezinput</code>:</p>
+                <div class="code-block">
+                    <pre><code class="language-bash"># Run a notebook from terminal
+ezinput my_analysis.ipynb
+
+# Works with EZInput GUIs inside the notebook!
+# Prompts appear in terminal, configs are loaded automatically</code></pre>
+                </div>
+                <p>Perfect for batch processing, automation, and integrating notebooks into pipelines.</p>
             </div>
 
             <div class="feature-highlight">
@@ -157,34 +171,29 @@ print(f"Threshold: {threshold.value}, Method: {method.value}")</code></pre>
             <h2>Widget Gallery</h2>
             <p class="section-subtitle">All the widgets you need, with consistent API across environments</p>
             
-            <div class="widget-categories">
-                <div class="widget-category">
-                    <h3>📝 Text & Numbers</h3>
-                    <ul>
-                        <li><code>add_text()</code> - Single line text</li>
-                        <li><code>add_text_area()</code> - Multi-line text</li>
-                        <li><code>add_int_range()</code> - Integer slider</li>
-                        <li><code>add_float_range()</code> - Float slider</li>
-                        <li><code>add_bounded_int_text()</code> - Validated integers</li>
-                        <li><code>add_bounded_float_text()</code> - Validated floats</li>
-                    </ul>
-                </div>
+            <div class="widget-list-single">
+                <h3>📝 Text & Numbers</h3>
+                <ul>
+                    <li><code>add_text()</code> - Single line text</li>
+                    <li><code>add_text_area()</code> - Multi-line text</li>
+                    <li><code>add_int_range()</code> - Integer slider</li>
+                    <li><code>add_float_range()</code> - Float slider</li>
+                    <li><code>add_int_text()</code> - Integer text input</li>
+                    <li><code>add_float_text()</code> - Float text input</li>
+                    <li><code>add_bounded_int_text()</code> - Validated integers</li>
+                    <li><code>add_bounded_float_text()</code> - Validated floats</li>
+                </ul>
                 
-                <div class="widget-category">
-                    <h3>✅ Selection</h3>
-                    <ul>
-                        <li><code>add_check()</code> - Checkbox/Yes-No</li>
-                        <li><code>add_dropdown()</code> - Selection from list</li>
-                    </ul>
-                </div>
+                <h3>✅ Selection</h3>
+                <ul>
+                    <li><code>add_check()</code> - Checkbox/Yes-No</li>
+                    <li><code>add_dropdown()</code> - Selection from list</li>
+                </ul>
                 
-                <div class="widget-category">
-                    <h3>🎨 Display</h3>
-                    <ul>
-                        <li><code>add_label()</code> - Static text/headers</li>
-                        <li><code>add_output()</code> - Output display area</li>
-                    </ul>
-                </div>
+                <h3>🎨 Display</h3>
+                <ul>
+                    <li><code>add_label()</code> - Static text/headers</li>
+                </ul>
             </div>
             
             <div class="cta-section">
@@ -246,33 +255,12 @@ gui.load_parameters("optimal_params.yml")
         </div>
     </section>
 
-    <section id="cli" class="cli-section">
-        <div class="container">
-            <h2>Run Notebooks from Terminal</h2>
-            <p class="section-subtitle">Execute your Jupyter notebooks as command-line tools with <code>ezinput</code></p>
-            
-            <div class="code-block">
-                <pre><code class="language-bash"># Run a notebook from terminal
-ezinput my_analysis.ipynb
-
-# Works with EZInput GUIs inside the notebook!
-# Prompts appear in terminal, configs are loaded automatically</code></pre>
-            </div>
-            
-            <p class="feature-note">Perfect for batch processing, automation, and integrating notebooks into pipelines.</p>
-        </div>
-    </section>
-
     <section id="getting-help" class="help-section">
         <div class="container">
             <h2>Resources & Support</h2>
             
             <div class="resource-grid">
-                <div class="resource-card">
-                    <h3>📚 Tutorials</h3>
-                    <p>Step-by-step guides for common tasks</p>
-                    <a href="tutorials.html">View Tutorials →</a>
-                </div>
+
                 
                 <div class="resource-card">
                     <h3>🔧 API Reference</h3>

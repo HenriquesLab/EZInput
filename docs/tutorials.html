@@ -57,10 +57,10 @@ gui = EZInput("my_first_app_v1")</code></pre>
 name = gui.add_text("user_name", "What's your name?")
 
 # Number with range
-age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
+age = gui.add_int_range("age", "Your age:", 0, 120, value=25)
 
 # Boolean choice
-student = gui.add_check("is_student", "Are you a student?", default=False)</code></pre>
+student = gui.add_check("is_student", "Are you a student?", value=False)</code></pre>
             </div>
 
             <h3 style="margin-top: 2rem;">Step 3: Display the GUI</h3>
@@ -68,6 +68,9 @@ student = gui.add_check("is_student", "Are you a student?", default=False)</code
                 <pre><code class="language-python"># Show the GUI and collect input
 gui.show()</code></pre>
             </div>
+            <p style="margin-top: 1rem; padding: 1rem; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px;">
+                <strong>📓 Jupyter Notebooks:</strong> Create a new cell here! The code in Step 4 should go in a separate cell below this one, so you can interact with the widgets before running the code that accesses their values.
+            </p>
 
             <h3 style="margin-top: 2rem;">Step 4: Use the Values</h3>
             <div class="code-block">
@@ -89,8 +92,8 @@ else:
 # Create and populate GUI
 gui = EZInput("my_first_app_v1")
 name = gui.add_text("user_name", "What's your name?")
-age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
-student = gui.add_check("is_student", "Are you a student?", default=False)
+age = gui.add_int_range("age", "Your age:", 0, 120, value=25)
+student = gui.add_check("is_student", "Are you a student?", value=False)
 
 # Display
 gui.show()
@@ -102,6 +105,7 @@ if student.value:
     print("Student discount applied! 🎓")</code></pre>
                 </div>
                 <p><strong>Try it!</strong> This code works identically in Jupyter notebooks and Python scripts.</p>
+                <p style="margin-top: 1rem;"><strong>📓 Jupyter Notebooks:</strong> Split the code into two cells - first cell ends at <code>gui.show()</code>, second cell contains the code that accesses <code>.value</code>. This lets you interact with widgets before running the processing code.</p>
             </div>
         </section>
 
@@ -154,14 +158,14 @@ gui.add_label(value="=== Processing Parameters ===")
 method = gui.add_dropdown("method", 
                           ["watershed", "otsu", "adaptive", "manual"],
                           "Segmentation method:",
-                          default="watershed")
-threshold = gui.add_float_range("threshold", "Threshold:", 0.0, 1.0, default=0.5)
-min_size = gui.add_bounded_int_text("min_size", "Min object size (px):", 10, 10000, default=100)
+                          value="watershed")
+threshold = gui.add_float_range("threshold", "Threshold:", 0.0, 1.0, value=0.5)
+min_size = gui.add_bounded_int_text("min_size", "Min object size (px):", 10, 10000, value=100)
 
 # Section 3: Options
 gui.add_label(value="=== Options ===")
-use_gpu = gui.add_check("use_gpu", "Use GPU acceleration?", default=False)
-save_output = gui.add_check("save_output", "Save processed image?", default=True)
+use_gpu = gui.add_check("use_gpu", "Use GPU acceleration?", value=False)
+save_output = gui.add_check("save_output", "Save processed image?", value=True)
 
 # Add processing callback
 gui.add_callback("process", analyze_image, gui.get_values(),

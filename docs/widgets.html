@@ -116,7 +116,6 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="widgets.html">Widgets</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
                 <li><a href="configuration.html">Configuration</a></li>
                 <li><a href="api.html">API Reference</a></li>
                 <li><a href="https://github.com/HenriquesLab/EZInput" target="_blank">GitHub</a></li>
@@ -198,9 +197,9 @@ name = gui.add_text("user_name", "Enter your name:")
 email = gui.add_text("email", "Email address:", 
                      placeholder="user@example.com")
 
-# With default value
+# With initial value
 project = gui.add_text("project_name", "Project:", 
-                       default="MyProject")
+                       value="MyProject")
 
 gui.show()
 
@@ -276,7 +275,7 @@ description = gui.add_text_area("desc", "Project description:",
 
 # For code snippets
 code_input = gui.add_text_area("code", "Paste your code:",
-                               default="# Your code here\n")
+                               value="# Your code here\n")
 
 gui.show()
 print(description.value)</code></pre>
@@ -327,9 +326,9 @@ print(description.value)</code></pre>
                         <td colspan="3">Optional Parameters</td>
                     </tr>
                     <tr class="optional-row">
-                        <td><code>default</code></td>
+                        <td><code>value</code></td>
                         <td>int</td>
-                        <td>Default value (default: min_val)</td>
+                        <td>Initial value (default: min_val)</td>
                     </tr>
                     <tr class="optional-row">
                         <td><code>remember_value</code></td>
@@ -351,10 +350,10 @@ print(description.value)</code></pre>
 
             <div class="code-block">
                 <pre><code class="language-python"># Integer slider/range input
-iterations = gui.add_int_range("iter", "Iterations:", 1, 1000, default=100)
+iterations = gui.add_int_range("iter", "Iterations:", 1, 1000, value=100)
 
 # Age input with bounds
-age = gui.add_int_range("age", "Your age:", 0, 120, default=25)
+age = gui.add_int_range("age", "Your age:", 0, 120, value=25)
 
 gui.show()
 print(f"Iterations: {iterations.value}")</code></pre>
@@ -398,9 +397,9 @@ print(f"Iterations: {iterations.value}")</code></pre>
                         <td colspan="3">Optional Parameters</td>
                     </tr>
                     <tr class="optional-row">
-                        <td><code>default</code></td>
+                        <td><code>value</code></td>
                         <td>float</td>
-                        <td>Default value (default: min_val)</td>
+                        <td>Initial value (default: min_val)</td>
                     </tr>
                     <tr class="optional-row">
                         <td><code>remember_value</code></td>
@@ -422,10 +421,10 @@ print(f"Iterations: {iterations.value}")</code></pre>
 
             <div class="code-block">
                 <pre><code class="language-python"># Threshold slider/input
-threshold = gui.add_float_range("thresh", "Threshold:", 0.0, 1.0, default=0.5)
+threshold = gui.add_float_range("thresh", "Threshold:", 0.0, 1.0, value=0.5)
 
 # Learning rate with precision
-lr = gui.add_float_range("lr", "Learning rate:", 0.0001, 0.1, default=0.01)
+lr = gui.add_float_range("lr", "Learning rate:", 0.0001, 0.1, value=0.01)
 
 gui.show()
 print(f"Threshold: {threshold.value}")</code></pre>
@@ -441,7 +440,7 @@ print(f"Threshold: {threshold.value}")</code></pre>
 percentage = gui.add_bounded_int_text("coverage", "Coverage %:", 0, 100)
 
 # Port number input
-port = gui.add_bounded_int_text("port", "Port:", 1024, 65535, default=8080)
+port = gui.add_bounded_int_text("port", "Port:", 1024, 65535, value=8080)
 
 gui.show()</code></pre>
             </div>
@@ -511,9 +510,9 @@ gui.show()</code></pre>
                         <td colspan="3">Optional Parameters</td>
                     </tr>
                     <tr class="optional-row">
-                        <td><code>default</code></td>
+                        <td><code>value</code></td>
                         <td>bool</td>
-                        <td>Default value (default: False)</td>
+                        <td>Initial value (default: False)</td>
                     </tr>
                     <tr class="optional-row">
                         <td><code>remember_value</code></td>
@@ -535,9 +534,9 @@ gui.show()</code></pre>
 
             <div class="code-block">
                 <pre><code class="language-python"># Boolean checkbox (Jupyter) or yes/no prompt (terminal)
-debug = gui.add_check("debug", "Enable debug mode?", default=False)
+debug = gui.add_check("debug", "Enable debug mode?", value=False)
 
-use_gpu = gui.add_check("gpu", "Use GPU acceleration?", default=True)
+use_gpu = gui.add_check("gpu", "Use GPU acceleration?", value=True)
 
 verbose = gui.add_check("verbose", "Verbose output?")
 
@@ -594,9 +593,9 @@ if use_gpu.value:
                         <td colspan="3">Optional Parameters</td>
                     </tr>
                     <tr class="optional-row">
-                        <td><code>default</code></td>
+                        <td><code>value</code></td>
                         <td>any</td>
-                        <td>Default selected value (default: first option)</td>
+                        <td>Initial selected value (default: first option)</td>
                     </tr>
                     <tr class="optional-row">
                         <td><code>remember_value</code></td>
@@ -621,7 +620,7 @@ if use_gpu.value:
 algorithm = gui.add_dropdown("algo", 
                              ["linear", "polynomial", "rbf", "sigmoid"],
                              "Kernel method:",
-                             default="rbf")
+                             value="rbf")
 
 # File format selection
 format_opt = gui.add_dropdown("format",
@@ -745,9 +744,9 @@ print(f"Selected file: {input_file.value}")</code></pre>
                         <td colspan="3">Optional Parameters</td>
                     </tr>
                     <tr class="optional-row">
-                        <td><code>default</code></td>
+                        <td><code>value</code></td>
                         <td>str</td>
-                        <td>Default path (default: "")</td>
+                        <td>Initial path (default: "")</td>
                     </tr>
                     <tr class="optional-row">
                         <td><code>remember_value</code></td>
@@ -772,7 +771,7 @@ print(f"Selected file: {input_file.value}")</code></pre>
 input_file = gui.add_path_completer("input", "Select input file:")
 
 output_dir = gui.add_path_completer("output_dir", "Output directory:",
-                                    default="./output")
+                                    value="./output")
 
 gui.show()
 print(f"File path: {input_file.value}")</code></pre>
