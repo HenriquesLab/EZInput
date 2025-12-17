@@ -49,6 +49,12 @@ def run_notebook():
         )
         print("=" * 60)
 
+        # Create a shared namespace for all cells
+        global_namespace = {
+            "__name__": "__main__",
+            "__file__": str(notebook_path.absolute()),
+        }
+
         # Process cells in order
         for cell in cells:
             cell_type = cell.get("cell_type")
@@ -66,13 +72,7 @@ def run_notebook():
             elif cell_type == "code":
                 # Execute code cells
                 if content.strip():
-                    exec(
-                        content,
-                        {
-                            "__name__": "__main__",
-                            "__file__": str(notebook_path.absolute()),
-                        },
-                    )
+                    exec(content, global_namespace)
 
         print("=" * 60)
         print(f"Notebook executed successfully: {notebook_path}")
