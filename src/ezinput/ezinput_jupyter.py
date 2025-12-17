@@ -146,6 +146,8 @@ class EZInputJupyter:
             style=style,
         )
 
+        return self.elements[tag]
+
     def add_text(
         self,
         tag: str,
@@ -200,6 +202,8 @@ class EZInputJupyter:
             style=style,
         )
 
+        return self.elements[tag]
+
     def add_callback(
         self, tag, func, values: dict, description="Run", *args, **kwargs
     ):
@@ -246,6 +250,7 @@ class EZInputJupyter:
             func(values)
 
         self.elements[tag].on_click(wrapped)
+        return self.elements[tag]
 
     def add_text_area(
         self,
@@ -316,6 +321,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_HTML(
         self, tag: str, value: str, description: str = "", *args, **kwargs
     ):
@@ -357,6 +364,8 @@ class EZInputJupyter:
             layout=self._layout,
             style=style,
         )
+
+        return self.elements[tag]
 
     def add_int_range(
         self,
@@ -430,6 +439,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_int_slider(
         self,
         tag: str,
@@ -483,6 +494,8 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+
+        return self.elements[tag]
 
     def add_float_range(
         self,
@@ -543,6 +556,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_float_slider(
         self,
         tag: str,
@@ -596,6 +611,8 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+
+        return self.elements[tag]
 
     def add_check(
         self,
@@ -651,6 +668,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_int_text(
         self,
         tag,
@@ -705,6 +724,8 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+
+        return self.elements[tag]
 
     def add_bounded_int_text(
         self,
@@ -768,6 +789,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_float_text(
         self,
         tag,
@@ -821,6 +844,8 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+
+        return self.elements[tag]
 
     def add_bounded_float_text(
         self,
@@ -885,6 +910,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_dropdown(
         self,
         tag,
@@ -942,6 +969,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_checkbox(
         self,
         tag: str,
@@ -988,6 +1017,8 @@ class EZInputJupyter:
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
 
+        return self.elements[tag]
+
     def add_select_multiple(
         self, tag: str, options: list, description: str = "", *args, **kwargs
     ):
@@ -1028,6 +1059,8 @@ class EZInputJupyter:
             layout=self._layout,
             style=style,
         )
+
+        return self.elements[tag]
 
     def add_file_upload(
         self, tag, *args, accept=None, remember_value=True, **kwargs
@@ -1074,6 +1107,8 @@ class EZInputJupyter:
         if accept is not None:
             self.elements[tag].filter_pattern = accept
 
+        return self.elements[tag]
+
     def add_output(self, tag: str, *args, **kwargs):
         """**@unified** - Add an output widget for displaying results.
 
@@ -1110,6 +1145,8 @@ class EZInputJupyter:
             layout=self._layout,
             style=style,
         )
+
+        return self.elements[tag]
 
     def add_custom_widget(
         self,
@@ -1162,6 +1199,8 @@ class EZInputJupyter:
 
         if on_change is not None:
             self.elements[tag].observe(on_change, names="value")
+
+        return self.elements[tag]
 
     def save_parameters(self, path: str):
         """**@unified** - Save current widget values to a YAML file.
