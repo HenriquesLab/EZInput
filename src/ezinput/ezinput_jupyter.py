@@ -428,6 +428,7 @@ class EZInputJupyter:
             update = True
         else:
             update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
 
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntSlider(
@@ -551,6 +552,7 @@ class EZInputJupyter:
             update = True
         else:
             update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
 
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatSlider(
