@@ -1097,6 +1097,8 @@ class EZInputJupyter:
         self.elements[tag] = FileChooser()
         if tag in self.cfg and remember_value:
             selected_file = self.cfg[tag]
+            if selected_file is None:
+                selected_file = ""
             self.elements[tag].default_path = os.path.dirname(selected_file)
             self.elements[tag].default_filename = os.path.basename(
                 selected_file
