@@ -425,14 +425,16 @@ class EZInputJupyter:
                 kwargs["value"] = self.params[tag]
 
         if "continuous_update" not in kwargs:
-            kwargs["continuous_update"] = True
+            update = True
+        else:
+            update = kwargs["continuous_update"]
 
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntSlider(
             description=description,
             min=vmin,
             max=vmax,
-            continuous_update=kwargs["continuous_update"],
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -546,14 +548,16 @@ class EZInputJupyter:
             kwargs["value"] = self.params[tag]
 
         if "continuous_update" not in kwargs:
-            kwargs["continuous_update"] = True
+            update = True
+        else:
+            update = kwargs["continuous_update"]
 
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatSlider(
             description=description,
             min=vmin,
             max=vmax,
-            continuous_update=kwargs["continuous_update"],
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
