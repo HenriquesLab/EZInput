@@ -191,11 +191,17 @@ class EZInputJupyter:
         elif remember_value and tag in self.cfg:
             kwargs["value"] = str(self.cfg[tag])
 
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.Text(
             description=description,
             placeholder=placeholder,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -308,10 +314,17 @@ class EZInputJupyter:
         if self.params is not None and tag in self.params:
             kwargs["value"] = self.params[tag]
         style = kwargs.pop("style", self._style)
+
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         self.elements[tag] = widgets.Textarea(
             description=description,
             placeholder=placeholder,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -725,10 +738,16 @@ class EZInputJupyter:
         if self.params is not None and tag in self.params:
             kwargs["value"] = self.params[tag]
 
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.IntText(
             description=description,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -787,12 +806,19 @@ class EZInputJupyter:
             kwargs["value"] = self.cfg[tag]
         if self.params is not None and tag in self.params:
             kwargs["value"] = self.params[tag]
+
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedIntText(
             min=vmin,
             max=vmax,
             description=description,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -845,10 +871,17 @@ class EZInputJupyter:
             kwargs["value"] = self.cfg[tag]
         if self.params is not None and tag in self.params:
             kwargs["value"] = self.params[tag]
+
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.FloatText(
             description=description,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
@@ -908,12 +941,19 @@ class EZInputJupyter:
             kwargs["value"] = self.cfg[tag]
         if self.params is not None and tag in self.params:
             kwargs["value"] = self.params[tag]
+
+        if "continuous_update" not in kwargs:
+            update = True
+        else:
+            update = kwargs["continuous_update"]
+            kwargs.pop("continuous_update")
+
         style = kwargs.pop("style", self._style)
         self.elements[tag] = widgets.BoundedFloatText(
             min=vmin,
             max=vmax,
             description=description,
-            continuous_update=True,
+            continuous_update=update,
             *args,
             **kwargs,
             layout=self._layout,
