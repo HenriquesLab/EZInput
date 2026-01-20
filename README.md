@@ -10,7 +10,7 @@
 [![Contributors](https://img.shields.io/github/contributors-anon/HenriquesLab/EZInput)](https://github.com/HenriquesLab/EZInput/graphs/contributors)
 [![GitHub stars](https://img.shields.io/github/stars/HenriquesLab/EZInput?style=social)](https://github.com/HenriquesLab/EZInput/)
 [![GitHub forks](https://img.shields.io/github/forks/HenriquesLab/EZInput?style=social)](https://github.com/HenriquesLab/EZInput/)
-[![DOI](https://img.shields.io/badge/Publication-Soon-purple)]()
+[![DOI](https://img.shields.io/badge/Publication-arXiv-purple)](https://arxiv.org/abs/2601.08859)
 
 <p align="center">
   <img src="docs/logo_white_bg.png" alt="EZInput Logo" width="400"/>
