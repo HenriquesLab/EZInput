@@ -33,23 +33,17 @@ authors:
     orcid: 0000-0002-2043-5234
 affiliations:
   - index: 1
-    name: "Instituto de Tecnologia Química e Biológica António Xavier, Universidade Nova de Lisboa"
-    location: "Oeiras, Portugal"
+    name: "Instituto de Tecnologia Química e Biológica António Xavier, Universidade Nova de Lisboa, Portugal"
   - index: 2
-    name: "UCL Laboratory for Molecular Cell Biology, University College London"
-    location: "London, United Kingdom"
+    name: "UCL Laboratory for Molecular Cell Biology, University College London, United Kingdom"
   - index: 3
-    name: "Faculty of Science and Engineering, Cell Biology, Åbo Akademi University"
-    location: "Turku, Finland"
+    name: "Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, Finland"
   - index: 4
-    name: "InFLAMES Research Flagship Center, University of Turku"
-    location: "Turku, Finland"
+    name: "InFLAMES Research Flagship Center, University of Turku, Finland"
   - index: 5
-    name: "Turku Bioscience Centre, University of Turku and Åbo Akademi University"
-    location: "Turku, Finland"
+    name: "Turku Bioscience Centre, University of Turku and Åbo Akademi University, Finland"
   - index: 6
-    name: "Foundation for the Finnish Cancer Institute"
-    location: "Helsinki, Finland"
+    name: "Foundation for the Finnish Cancer Institute, Finland"
 date: 2026-01-22
 bibliography: paper.bib
 ---
