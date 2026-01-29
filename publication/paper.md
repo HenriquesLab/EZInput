@@ -8,27 +8,27 @@ tags:
   - Scientific Computing
 authors:
   - name: "Bruno M. Saraiva"
-    affiliations: [1]
+    affiliations: 1
     corresponding_author: true
     orcid: 0000-0002-9151-5477
   - name: "Iván Hidalgo-Cenalmor"
-    affiliations: [3]
+    affiliations: 3
     orcid: 0009-0000-8923-568X
   - name: "António D. Brito"
-    affiliations: [1]
+    affiliations: 1
     orcid: 0009-0001-1769-2627
   - name: "Damián Martínez"
-    affiliations: [1]
+    affiliations: 1
     orcid: 0000-0002-5906-598X
   - name: "Tayla Shakespeare"
-    affiliations: [1]
+    affiliations: 1
     orcid: 0000-0002-4159-0460
   - name: "Guillaume Jaquemet"
-    affiliations: [3,4,5,6]
+    affiliations: "3,4,5,6"
     corresponding_author: true
     orcid: 0000-0002-9286-920X
   - name: "Ricardo Henriques"
-    affiliations: [1,2]
+    affiliations: "1,2"
     corresponding_author: true
     orcid: 0000-0002-2043-5234
 affiliations:
