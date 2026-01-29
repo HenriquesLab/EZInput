@@ -9,28 +9,18 @@ tags:
 authors:
   - name: "Bruno M. Saraiva"
     affiliations: 1
-    corresponding_author: true
-    orcid: 0000-0002-9151-5477
   - name: "Iván Hidalgo-Cenalmor"
     affiliations: 3
-    orcid: 0009-0000-8923-568X
   - name: "António D. Brito"
     affiliations: 1
-    orcid: 0009-0001-1769-2627
   - name: "Damián Martínez"
     affiliations: 1
-    orcid: 0000-0002-5906-598X
   - name: "Tayla Shakespeare"
     affiliations: 1
-    orcid: 0000-0002-4159-0460
   - name: "Guillaume Jaquemet"
-    affiliations: "3,4,5,6"
-    corresponding_author: true
-    orcid: 0000-0002-9286-920X
+    affiliations: "3, 4, 5, 6"
   - name: "Ricardo Henriques"
-    affiliations: "1,2"
-    corresponding_author: true
-    orcid: 0000-0002-2043-5234
+    affiliations: "1, 2"
 affiliations:
   - index: 1
     name: "Instituto de Tecnologia Química e Biológica António Xavier, Universidade Nova de Lisboa, Portugal"
@@ -44,7 +34,7 @@ affiliations:
     name: "Turku Bioscience Centre, University of Turku and Åbo Akademi University, Finland"
   - index: 6
     name: "Foundation for the Finnish Cancer Institute, Finland"
-date: 2026-01-22
+date: 2026-01-29
 bibliography: paper.bib
 ---
 
