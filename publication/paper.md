@@ -8,19 +8,19 @@ tags:
   - Scientific Computing
 authors:
   - name: "Bruno M. Saraiva"
-    affiliations: 1
+    affiliation: 1
   - name: "Iván Hidalgo-Cenalmor"
-    affiliations: 3
+    affiliation: 3
   - name: "António D. Brito"
-    affiliations: 1
+    affiliation: 1
   - name: "Damián Martínez"
-    affiliations: 1
+    affiliation: 1
   - name: "Tayla Shakespeare"
-    affiliations: 1
+    affiliation: 1
   - name: "Guillaume Jaquemet"
-    affiliations: "3, 4, 5, 6"
+    affiliation: "3, 4, 5, 6"
   - name: "Ricardo Henriques"
-    affiliations: "1, 2"
+    affiliation: "1, 2"
 affiliations:
   - index: 1
     name: "Instituto de Tecnologia Química e Biológica António Xavier, Universidade Nova de Lisboa, Portugal"
