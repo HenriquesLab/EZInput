@@ -20,6 +20,21 @@
 
 EZInput is a Python library that simplifies creating user interfaces for data science, image analysis, and computational research. Whether you're prototyping in a notebook or deploying a command-line tool, your UI code remains identical.
 
+## Citation
+
+If you find this project useful for your work, please consider citing:
+```
+@misc{saraiva2026ezinputcrossenvironmentpythonlibrary,
+      title={EZInput: A Cross-Environment Python Library for Easy UI Generation in Scientific Computing}, 
+      author={Bruno M. Saraiva and Iván Hidalgo-Cenalmor and António D. Brito and Damián Martínez and Tayla Shakespeare and Guillaume Jacquemet and Ricardo Henriques},
+      year={2026},
+      eprint={2601.08859},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE},
+      url={https://arxiv.org/abs/2601.08859}, 
+}
+```
+
 ## ✨ Key Features
 
 - 🔄 **Unified API**: Same code works in Jupyter notebooks (.ipynb) and terminal scripts (.py)
